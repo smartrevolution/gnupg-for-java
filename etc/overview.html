@@ -1,0 +1,43 @@
+<body>
+<em>GnuPG for Java</em> is a (currently GNU/Linux only) GnuPG-library based on the GPGME library. 
+
+GPGME is the standard way to implement language bindings on top of GnuPG. You can use this library
+to encrypt, decrypt and sign data and verify signatures on data using an underlying gnupg/gpgme system.
+<p>
+The key management features are currently not finished. But the library can find/list keys with their signatures.
+Future versions will be able to do everything that gpgme can do.
+<p>
+This library uses JNI (Java Native Interface) to call GPGME-Library functions. Therefore, this library
+runs only on platforms for which GPGME is available. Furthermore, this library is tested only under
+32-Bit Intel-based GNU/Linux. 
+<p>
+<b>This is an alpha release. Please expect problems. Although this is working code, this library is not finished and has known and unknown bugs.</b>  
+<p>
+Java for GnuPG is free software; you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public Licenseas published by the Free Software Foundation; either version 2.1
+of the License, or (at your option) any later version.
+<p>
+Please see COPYING in the source distribution for the complete licence.
+<p>
+So, if you need this library for another platform, if you find a bug or if you need a feature,
+please contact <a href="mailto:stefan@freiheit.com">Stefan Richter</a>.
+<p>
+
+<p>
+Quickstart to encryption:
+<p>
+  <pre><code>
+        GnuPGContext ctx = new GnuPGContext();
+
+        GnuPGKey[] recipient = new GnuPGKey[1]; 
+        recipient[0] = ctx.getKeyByFingerprint("gpg-fingerprint of recipient (must be from your keyring)");
+        //attention: fingerprint should not contain spaces...
+
+        GnuPGData plain = ctx.createDataObject("I am a secret message.");
+        GnuPGData cipher = ctx.createDataObject();//this will contain the cipher after encryption
+
+        ctx.encrypt(recipient, plain, cipher);
+        System.out.println("Plain text: " + plain);
+        System.out.println("Cipher text: " + cipher);
+  </code></pre>
+</body>

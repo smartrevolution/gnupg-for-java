@@ -1,0 +1,116 @@
+<project name="javagnupg" default="full-jar" basedir=".">
+    <property file="build.properties"/>
+
+    <target name="prepare" description="Create the necessary directories and files for the build">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${dist}"/>
+    </target>
+
+    <target name="clean" depends="clean-native" description="Remove all generated dirs and files...">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <target name="compile-java" depends="prepare" description="Compile the Java code for the GnuPG-Library">
+	<javac srcdir="${src}/java" destdir="${build}" deprecation="off" debug="on">
+            <src path="${src}/java"/>
+        </javac>
+    </target>
+
+    <target name="compile-tests" depends="prepare" description="Compile the JUnit test code for the GnuPG-Library">
+	<javac srcdir="${src}/junit" destdir="${build}" deprecation="off" debug="on">
+            <classpath>
+               <pathelement location="${lib}/junit-3.8.1.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="test" depends="gen-jni-header, compile-tests, full-jar" description="Test the library functions...">
+     	<property name="TestEnv" value="textui"/>
+     	<!-- 	"textui" for text-environment
+     			"swingui" for swing-environment
+     		 	"awtui" for awt-environment	-->
+
+    	<java classname="junit.${TestEnv}.TestRunner" fork ="yes">
+            <classpath>
+               <pathelement location ="${basedir}/${dist}/${app.name}-${app.version}.jar"/>
+               <pathelement location="${lib}/junit-3.8.1.jar"/>
+            </classpath>
+            <!--classpath refid="compile.classpath"/-->
+            <arg value="com.freiheit.gnupg.GnuPGTestSuite"/>
+        </java>
+    </target>
+
+
+    <target name="full-jar" depends="gen-jni-library" description="Use this is you want to rebuild everything">
+        <antcall target="jar"/>
+    </target>
+
+    <target name="jar" depends="compile-java" description="Use this, if you only want to recompile changed java code">
+    	<copydir dest="${build}" src="${src}"/>
+    	<delete failonerror="false" file="${build}/c/libjavagnupg.so"/>
+        <jar jarfile="${dist}/${app.name}-${app.version}.jar" basedir="${build}" />
+    </target>
+
+    <target name="clean-native" description="calls make clean in the c/ directory">
+        <exec executable="make" dir="${src}/c" failonerror="false">
+            <arg value="-e"/>
+            <arg value="clean"/>
+        </exec>
+    </target>
+
+    <!-- I am not using the javah-target, because it must installed additionally. -->
+    <!-- Instead I am calling a separate GNUmakefile, that manages all C-related tasks -->
+
+    <target name="generate-jni-headers" depends="compile-java" description="Use this, if you want to generate headers without resolving dependencies automatically">
+        <exec executable="make" dir="${src}/c" failonerror="true">
+            <arg value="header"/>
+            <arg value="-e"/>
+        </exec>
+    </target>
+
+    <target name="gen-jni-header" depends="compile-java" description="Generate the JNI C-Header Files from the Java-Classes">
+        <antcall target="generate-jni-headers"/>
+    </target>
+
+    <target name="recompile-c-code" description="Use this, if you just want to compile without resolving dependencies automatically">
+        <exec executable="make" dir="${src}/c" failonerror="true">
+            <arg value="lib"/>
+            <arg value="-e"/>
+        </exec>
+    </target>
+
+    <target name="gen-jni-library" depends="gen-jni-header" description="Generate the Shared Library with the JNI-Binding Code">
+        <antcall target="recompile-c-code"/>
+    </target>
+
+    <target name="javadoc" description="Create Javadoc-API documentation">
+        <mkdir  dir="${build}/docs/api"/>
+        <mkdir  dir="${build}/docs/images"/>
+        <copy todir="${build}/docs/images" file="etc/whitepaper.gif"/>
+        <copy todir="${build}/docs/images" file="etc/fdc.javadoc.png"/>
+
+        <javadoc sourcepath="${src}/java"
+                    destdir="${build}/docs/${app.name}-${app.version}"
+                windowtitle="${app.name} (Version ${app.version})"
+                   doctitle="${app.name} (Version ${app.version})"
+                     bottom="&#169; ${app.year} ${app.vendor}"
+                     header="freiheit.com technologies gmbh"
+               packagenames="com.freiheit.*"
+             stylesheetfile="${etc}/stylesheet.css"
+                   overview="${etc}/overview.html">
+          <!--classpath refid="compile.classpath"/-->
+            <!--
+                !!! relative path for headers does NOT work !!!
+                header="&lt;img src='../images/fdc.javadoc.png'&gt;"
+                <link href="http://java.sun.com/j2se/1.4/docs/api/"/>
+                <link href="http://www.junit.org/junit/javadoc/3.7"/>
+            -->
+        </javadoc>
+    </target>
+
+    <target name="zip_javadoc" depends="javadoc" description="Create a zip-file for API-Javadoc">
+        <zip zipfile="${build}/${app.name}-${app.version}-javadoc.zip" basedir="${build}/docs/${app.name}-${app.version}"/>
+    </target>
+
+</project>

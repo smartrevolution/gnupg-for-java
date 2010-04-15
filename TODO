@@ -1,0 +1,57 @@
+What is missing to complete the first public release?
+-----------------------------------------------------
+
+MISSING CODE
++ Call check_version in static initializer (init_lib)
++ Set Locale-Code in static initializer (init_lib)
++ Implement destroy-Method and finalizer for GnuPGKey (release_ref...)
++ setter/getter for Ascii-Armor
++ Search for keys and return GnuPGKey-List (Array...?!)
+
+- Read complete Key-Structure (all subkeys, all attributes)
+
+- Password-Entry via Console (take it from henplus)
+- Strip spaces from fingerprints
+- complete signing code: add_signers to context
+- change the access to global env using GetEnv()
+
+- check for gpg-agent/pinentry and dont require Java-Listener
+
+- make setField() a utils-function
+
+[- Synchronize GnuPGContext and GnuPGData for multithreading (and calls to wait())]
+
+Optional:
+[- Make the lib completely stream-based (no large data alloc is required)]
+
+PROBLEMS/BUGS
+- Fix the problems with the passphrase callback (null-Value Passwords etc.)
+- Fix all warnings (integer pointer ...)
+- Read from InputStream to GnuPGData-Object
+- Handle errors, if no key could be retrieved with given fingerprint
+- ?
+
+TESTING
++ Check for correct encoding (like special german characters)
++ Generate Test-Environment that can be distributed with the code
++ Write JUnit-Testcode for all existing methods
+- Run tests with large data
+[- Use a separate test key-ring (maybe from gpg)]
+
+VERSION-REQUIREMENTS
+- Use seek instead of rewind
+- Check for required library
+- Check for required jvm version 
+- Check for required os (must be linux)
+
+SRC-DISTRIBUTION
++ Integrate ant/make compilation parts
+- Add LGPL-License and LGPL headers to all files
+- Write example code
+- Ask, how to transfer license-responsibility to GNU
+- Add this as a new SourceForge-Project
+
+DOCUMENTATION
++ Write Javadoc-Comments
+- Write Documentation
+- Put Documentation as HTML and JavaDoc on SourceForge Project-Page
