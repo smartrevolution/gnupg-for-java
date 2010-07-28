@@ -576,8 +576,6 @@ public class GnuPGContext extends GnuPGPeer{
         }
     }
 
-
-
     /**
      * Determines the native library name for the system this is running on.
      * If running on unix, we also try to guess the architecture's bit-ness
@@ -585,33 +583,15 @@ public class GnuPGContext extends GnuPGPeer{
      * @return the name
      */
     private static String getNativeLibraryName() {
-
         // if all fails we assume windblows
-        String libName = "/c/javagnupg";
-
-        try {
-            ProcessBuilder pb = new ProcessBuilder(new String[] { "/bin/uname", "-m" });
-            pb.redirectErrorStream(true);
-            Process p = pb.start();
-            InputStreamReader isr = new InputStreamReader(p.getInputStream());
-            BufferedReader br = new BufferedReader(isr);
-
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-
-            while ((line = br.readLine()) != null) {
-                //System.out.println(line);
-                sb.append(line + "\n");
-            }
-
-            String uName = sb.toString().trim();
-            libName = uName.endsWith("_64") ? "/c/libjavagnupg.64" : "/c/libjavagnupg.32";
-        } catch (Exception e) {
-            System.err.println("Cannot execute 'uname'. Probably running on a non unix environment.");
-            /* nothing here, may add some debug output */
-            e.printStackTrace();
-        }
-
+        String libName = "/c/";
+		libName += System.getProperty("os.name").replace(" ", "_");
+		if(System.getProperty("os.arch") == "amd64"){
+       		libName +=  "/libjavagnupg.64";			
+		}else{
+       		libName +=  "/libjavagnupg.32";			
+		}
+ 
         return libName + "." + getNativeLibraryExtension();
     }
 
@@ -633,6 +613,9 @@ public class GnuPGContext extends GnuPGPeer{
                         // if we find any file matching lib*.so, we assume unix
                         if (file.startsWith("lib") && file.endsWith(".so")) {
                             return "so";
+                        }
+                        if (file.startsWith("lib") && file.endsWith(".dylib")) {
+                            return "dylib";
                         }
                     }
                 }
