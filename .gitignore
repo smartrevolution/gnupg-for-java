@@ -1,0 +1,3 @@
+build/
+src/c/*.o
+src/c/libjavagnupg.so

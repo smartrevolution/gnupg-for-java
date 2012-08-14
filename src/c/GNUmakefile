@@ -1,16 +1,9 @@
-# to use the JAVA_HOME var in the environment, use the `-e' flag to make
-ifeq ($(JAVA_HOME),,)
-JAVA_HOME := /www/home/tcadm/local/jdk-amd64
-#JAVA_HOME := /opt/java/jdk1.5.0_06
-#JAVA_HOME := /usr/lib/jvm/java-1.5.0-sun
-#JAVA_HOME := /usr/local/jdk1.4.2
-endif
+# to override this JAVA_HOME, use the `-e' flag to make, or call it like:
+#   make JAVA_HOME=/opt/java
+JAVA_HOME := $(shell readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 
-# set this from the command line to enforce a particular OS-bitness
-BITS := $(shell /bin/uname -m | grep ".*_[0-9]\+" | sed "s/.*_\([0-9]\+\)/\1/")
-
-JAVAGNUPG_LIB := libjavagnupg
-JNISRC := $(wildcard GnuPG*.c)
+JAVAGNUPG_LIB := libjavagnupg.so
+JNISRC := GnuPGContext.c GnuPGData.c GnuPGGenkeyResult.c GnuPGKey.c GnuPGSignature.c
 JNI_CLASSES := $(patsubst %.c, com.freiheit.gnupg.%, $(JNISRC))
 JNI_HEADERS := $(patsubst %.c, com_freiheit_gnupg_%.h, $(JNISRC))
 SOURCES := $(JNISRC) gpgmeutils.c
@@ -23,26 +16,22 @@ JAVA  := $(JAVA_HOME)/bin/java
 CC := gcc
 INSTALL := install -m 644
 
-MARCH := 
-ifneq ($(BITS),)
-MARCH := -m$(BITS)
-else
-BITS := 32
-endif
 DEBUG := -g
-CFLAGS := $(MARCH) -Werror -Wall -Wno-deprecated-declarations -fPIC $(shell gpgme-config --cflags)
-CPPFLAGS := -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -DLARGEFILE_SOURCE=1 -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
+CFLAGS := -Werror -Wall -Wno-deprecated-declarations -Wno-unused-but-set-variable \
+	-fPIC $(shell gpgme-config --cflags)
+CPPFLAGS = -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -DLARGEFILE_SOURCE=1 \
+	-I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 
 C_IMPL := ./src/c
 JAVA_BUILD := ../../build
 LDFLAGS := $(shell gpgme-config --thread=pthread --libs)
 
-lib: $(JAVAGNUPG_LIB).$(BITS).so
+lib: $(JAVAGNUPG_LIB)
 
-$(JAVAGNUPG_LIB).$(BITS).so: $(OBJECTS)
+$(JAVAGNUPG_LIB): $(OBJECTS)
 	$(CC) $(DEBUG) -shared $(CFLAGS) $^ -o $@ $(LDFLAGS)
 	$(INSTALL) -m 755 -d $(JAVA_BUILD)/c
-	$(INSTALL) $(JAVAGNUPG_LIB).$(BITS).so $(JAVA_BUILD)/c
+	$(INSTALL) $(JAVAGNUPG_LIB) $(JAVA_BUILD)/c
 
 header: $(JNI_HEADERS)
 
@@ -53,12 +42,15 @@ mids:
 	$(JAVAP) -classpath $(JAVA_BUILD) -s -p $(JNI_CLASSES)
 
 clean:
-	@echo "NOT deleting the shared libraries. Use \`distclean' target to remove them."
 	rm -f $(OBJECTS) *~
+	rm -f $(JAVAGNUPG_LIB)
 
-distclean:
-	$(MAKE) clean
-	rm -f $(JAVAGNUPG_LIB).*.so
+test:
+	echo "JAVA_HOME: --$(JAVA_HOME)--"
+	echo "JNISRC: $(JNISRC)"
+	echo "JNI_CLASSES: $(JNI_CLASSES)"
+	echo "JNI_HEADERS: $(JNI_HEADERS)"
+	echo "SOURCES: $(SOURCES)"
 
 %.o: %.c $(JNI_HEADERS) gpgmeutils.h
 	$(CC) $(DEBUG) $(CFLAGS) $(CPPFLAGS) -c $<
