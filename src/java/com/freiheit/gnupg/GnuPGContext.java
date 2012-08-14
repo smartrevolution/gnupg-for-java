@@ -180,7 +180,7 @@ public class GnuPGContext extends GnuPGPeer{
     }
 
     private long[] getInternalRepresentationFromRecipients(GnuPGKey[] recipients) {
-        // note that these are pointers to addresses in the javagnupg shared lib
+        // note that these are pointers to addresses in the gnupg-for-java shared lib
         long recipientsInternals[] = new long[recipients.length];
         for (int i=0; i < recipients.length; i++) {
             if (recipients[i] != null)
@@ -304,7 +304,7 @@ public class GnuPGContext extends GnuPGPeer{
     public void encrypt(GnuPGKey[] recipients, GnuPGData plain, GnuPGData cipher) throws GnuPGException{
         if (hasNoRecipients(recipients) || plain == null || cipher == null) throw new GnuPGException("Encryption-Arguments not complete.");
 
-        // note that these are pointers to addresses in the javagnupg shared lib
+        // note that these are pointers to addresses in the gnupg-for-java shared lib
         long recipientsInternals[] = getInternalRepresentationFromRecipients(recipients);
         gpgmeOpEncrypt(this.getInternalRepresentation(), recipientsInternals,
                        plain.getInternalRepresentation(), cipher.getInternalRepresentation());
@@ -454,7 +454,7 @@ public class GnuPGContext extends GnuPGPeer{
     */
     public void setEngineInfo(int proto, String fileName, String homeDir){
 
-        // note that this is a pointer to and address in the javagnupg shared lib
+        // note that this is a pointer to and address in the gnupg-for-java shared lib
         long ctx = getInternalRepresentation();
         gpgmeCtxSetEngineInfo(ctx,proto,fileName,homeDir);
     }
@@ -524,7 +524,7 @@ public class GnuPGContext extends GnuPGPeer{
     private native long gpgmeGetTextmode(long l);
     private native void gpgmeSetTextmode(long l, long state);
 
-    private static final String NATIVE_LIBRARY_BASENAME = "libjavagnupg";
+    private static final String NATIVE_LIBRARY_BASENAME = "libgnupg-for-java";
 
     /*
       It is not possible, to load a shared library directly
@@ -587,7 +587,7 @@ public class GnuPGContext extends GnuPGPeer{
     private static String getNativeLibraryName() {
 
         // if all fails we assume windblows
-        String libName = "/c/javagnupg";
+        String libName = "/c/gnupg-for-java";
 
         try {
             ProcessBuilder pb = new ProcessBuilder(new String[] { "/bin/uname", "-m" });
@@ -605,7 +605,7 @@ public class GnuPGContext extends GnuPGPeer{
             }
 
             String uName = sb.toString().trim();
-            libName = uName.endsWith("_64") ? "/c/libjavagnupg.64" : "/c/libjavagnupg.32";
+            libName = uName.endsWith("_64") ? "/c/libgnupg-for-java.64" : "/c/libgnupg-for-java.32";
         } catch (Exception e) {
             System.err.println("Cannot execute 'uname'. Probably running on a non unix environment.");
             /* nothing here, may add some debug output */

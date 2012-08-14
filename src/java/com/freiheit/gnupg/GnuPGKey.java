@@ -33,7 +33,7 @@ public class GnuPGKey extends GnuPGPeer{
        This is how then each key is instantiated on the java side from c.
      */
     protected GnuPGKey(long ptr) {
-        // note that this is a pointer to an address in the javagnupg shared lib
+        // note that this is a pointer to an address in the gnupg-for-java shared lib
          setInternalRepresentation(ptr);
     }
 
@@ -135,7 +135,7 @@ public class GnuPGKey extends GnuPGPeer{
     private GnuPGSignature getSignature(){
         GnuPGSignature result = null;
 
-        // note that thhis is a pointer to an address in the javagnupg shared lib
+        // note that thhis is a pointer to an address in the gnupg-for-java shared lib
         long ptr = gpgmeGetSignature(getInternalRepresentation());
 
         if (ptr != 0){

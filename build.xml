@@ -1,4 +1,4 @@
-<project name="javagnupg" default="full-jar" basedir=".">
+<project name="gnupg-for-java" default="full-jar" basedir=".">
     <property file="build.properties"/>
 
     <target name="prepare" description="Create the necessary directories and files for the build">
@@ -48,7 +48,7 @@
 
     <target name="jar" depends="compile-java" description="Use this, if you only want to recompile changed java code">
     	<copydir dest="${build}" src="${src}"/>
-    	<delete failonerror="false" file="${build}/c/libjavagnupg.so"/>
+    	<delete failonerror="false" file="${build}/c/libgnupg-for-java.so"/>
         <jar jarfile="${dist}/${app.name}-${app.version}.jar" basedir="${build}" />
     </target>
 

@@ -38,7 +38,7 @@ public class GnuPGSignature extends GnuPGPeer{
        @see com.freiheit.gnupg.GnuPGKey
      */
     protected GnuPGSignature(long ptr){
-         // note that this is a pointer to an address in the javagnupg shared lib
+         // note that this is a pointer to an address in the gnupg-for-java shared lib
          setInternalRepresentation(ptr);
     }
 
@@ -162,7 +162,7 @@ public class GnuPGSignature extends GnuPGPeer{
     protected GnuPGSignature getNextSignature(){
         GnuPGSignature result = null;
 
-         // note that this is a pointer to an address in the javagnupg shared lib
+         // note that this is a pointer to an address in the gnupg-for-java shared lib
         long next = gpgmeGetNextSignature(getInternalRepresentation());
 
         if(next != 0){

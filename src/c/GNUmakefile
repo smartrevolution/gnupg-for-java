@@ -2,7 +2,7 @@
 #   make JAVA_HOME=/opt/java
 JAVA_HOME := $(shell readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 
-JAVAGNUPG_LIB := libjavagnupg.so
+GNUPG_LIB := libgnupg-for-java.so
 JNISRC := GnuPGContext.c GnuPGData.c GnuPGGenkeyResult.c GnuPGKey.c GnuPGSignature.c
 JNI_CLASSES := $(patsubst %.c, com.freiheit.gnupg.%, $(JNISRC))
 JNI_HEADERS := $(patsubst %.c, com_freiheit_gnupg_%.h, $(JNISRC))
@@ -26,12 +26,12 @@ C_IMPL := ./src/c
 JAVA_BUILD := ../../build
 LDFLAGS := $(shell gpgme-config --thread=pthread --libs)
 
-lib: $(JAVAGNUPG_LIB)
+lib: $(GNUPG_LIB)
 
-$(JAVAGNUPG_LIB): $(OBJECTS)
+$(GNUPG_LIB): $(OBJECTS)
 	$(CC) $(DEBUG) -shared $(CFLAGS) $^ -o $@ $(LDFLAGS)
 	$(INSTALL) -m 755 -d $(JAVA_BUILD)/c
-	$(INSTALL) $(JAVAGNUPG_LIB) $(JAVA_BUILD)/c
+	$(INSTALL) $(GNUPG_LIB) $(JAVA_BUILD)/c
 
 header: $(JNI_HEADERS)
 
@@ -43,7 +43,7 @@ mids:
 
 clean:
 	rm -f $(OBJECTS) *~
-	rm -f $(JAVAGNUPG_LIB)
+	rm -f $(GNUPG_LIB)
 
 test:
 	echo "JAVA_HOME: --$(JAVA_HOME)--"
