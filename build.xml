@@ -14,8 +14,8 @@
 
     <target name="compile-java" depends="prepare" description="Compile the Java code for the GnuPG-Library">
       <mkdir dir="build/classes"/>
-      <javac srcdir="src/java" destdir="build/classes" debug="on">
-        <src path="src/java"/>
+      <javac srcdir="src" destdir="build/classes" debug="on">
+        <src path="src"/>
       </javac>
     </target>
 
