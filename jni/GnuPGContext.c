@@ -81,12 +81,10 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     _jvm = vm;
 
-    // TODO set locale from the Java setting
+    // TODO set locale from the JavaVM's config
     setlocale(LC_ALL, "");
-    //FIXME: The tests are hanging, when I use check_version, which is actually
-    // initializing the threading subsystem...hmmm..
-    //char* version = gpgme_check_version (NULL);
-    //printf("VERSION: %s\n", version);
+    const char* version = gpgme_check_version(NULL);
+    fprintf(stderr, "VERSION: %s\n", version);
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
     gpgme_set_locale(NULL, LC_MESSAGES, setlocale(LC_MESSAGES, NULL));
 
