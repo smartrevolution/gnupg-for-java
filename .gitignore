@@ -1,3 +1,5 @@
 build/
+dist/
+hs_err_pid*.log
 src/c/*.o
 src/c/libgnupg-for-java.so
