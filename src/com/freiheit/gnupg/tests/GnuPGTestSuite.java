@@ -11,7 +11,7 @@
  *
  * Please see COPYING for the complete licence.
  */
-package com.freiheit.gnupg;
+package com.freiheit.gnupg.tests;
 
 import java.io.File;
 import java.util.Iterator;
@@ -19,6 +19,8 @@ import java.util.Iterator;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import com.freiheit.gnupg.*;
 
 /**
    I will improve this TestSuite later, that everybody can run it without

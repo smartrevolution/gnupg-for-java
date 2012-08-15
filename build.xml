@@ -19,15 +19,7 @@
       </javac>
     </target>
 
-    <target name="compile-tests" depends="prepare" description="Compile the JUnit test code for the GnuPG-Library">
-	<javac srcdir="src/junit" destdir="build/junit" deprecation="off" debug="on">
-            <classpath>
-               <pathelement location="lib/junit-3.8.1.jar"/>
-            </classpath>
-        </javac>
-    </target>
-
-    <target name="test" depends="gen-jni-header, compile-tests, full-jar" description="Test the library functions...">
+    <target name="test" depends="gen-jni-header, full-jar" description="Test the library functions...">
      	<property name="TestEnv" value="textui"/>
      	<!-- 	"textui" for text-environment
      			"swingui" for swing-environment
@@ -35,11 +27,11 @@
 
     	<java classname="junit.${TestEnv}.TestRunner" fork ="yes">
             <classpath>
-               <pathelement location ="${basedir}/dist/${app.name}-${app.version}.jar"/>
+               <pathelement location="build/jar/${app.name}-${app.version}.jar"/>
                <pathelement location="lib/junit-3.8.1.jar"/>
             </classpath>
             <!--classpath refid="compile.classpath"/-->
-            <arg value="com.freiheit.gnupg.GnuPGTestSuite"/>
+            <arg value="com.freiheit.gnupg.tests.GnuPGTestSuite"/>
             <sysproperty key="java.library.path"
                          value="${basedir}/jni"/>
         </java>
