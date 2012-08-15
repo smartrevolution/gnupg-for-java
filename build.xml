@@ -38,6 +38,8 @@
             </classpath>
             <!--classpath refid="compile.classpath"/-->
             <arg value="com.freiheit.gnupg.GnuPGTestSuite"/>
+            <sysproperty key="java.library.path"
+                         value="${basedir}/src/c"/>
         </java>
     </target>
 
