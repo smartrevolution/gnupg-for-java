@@ -25,6 +25,8 @@
      			"swingui" for swing-environment
      		 	"awtui" for awt-environment	-->
 
+        <delete dir="/tmp/gnupg-for-java-tests"/>
+        <mkdir dir="/tmp/gnupg-for-java-tests"/>
     	<java classname="junit.${TestEnv}.TestRunner" fork ="yes">
             <classpath>
                <pathelement location="build/jar/${app.name}-${app.version}.jar"/>

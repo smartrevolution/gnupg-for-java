@@ -32,7 +32,7 @@ import com.freiheit.gnupg.*;
  */
 public class GnuPGTestSuite extends TestCase{
 
-    private static String HOME = "/tmp/gnupg";
+    private static String HOME = "/tmp/gnupg-for-java-tests";
     private static String PLAINTEXT = "I am a not so secret text.";
     //Currently, you can not run these test without these fingerprints.
     //And: You need to know the passphrases...forget it.
