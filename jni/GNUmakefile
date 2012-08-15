@@ -2,7 +2,7 @@
 #   make JAVA_HOME=/opt/java
 JAVA_HOME := $(shell readlink -f /usr/bin/javac | sed "s:/bin/javac::")
 
-GNUPG_LIB := libgnupg-for-java.so
+GNUPG_LIB := ../lib/libgnupg-for-java.so
 JNISRC := GnuPGContext.c GnuPGData.c GnuPGGenkeyResult.c GnuPGKey.c GnuPGSignature.c
 JNI_CLASSES := $(patsubst %.c, com.freiheit.gnupg.%, $(JNISRC))
 JNI_HEADERS := $(patsubst %.c, com_freiheit_gnupg_%.h, $(JNISRC))
@@ -22,16 +22,18 @@ CFLAGS := -Werror -Wall -Wno-deprecated-declarations -Wno-unused-but-set-variabl
 CPPFLAGS = -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -DLARGEFILE_SOURCE=1 \
 	-I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 
-C_IMPL := ./src/c
-JAVA_BUILD := ../../build
+JAVA_BUILD := ../build/classes
 LDFLAGS := $(shell gpgme-config --thread=pthread --libs)
-
-lib: $(GNUPG_LIB)
 
 $(GNUPG_LIB): $(OBJECTS)
 	$(CC) $(DEBUG) -shared $(CFLAGS) $^ -o $@ $(LDFLAGS)
-	$(INSTALL) -m 755 -d $(JAVA_BUILD)/c
-	$(INSTALL) $(GNUPG_LIB) $(JAVA_BUILD)/c
+
+$(OBJECTS): $(SOURCES) $(JNI_HEADERS) gpgmeutils.h
+
+%.o: %.c
+	$(CC) $(DEBUG) $(CFLAGS) $(CPPFLAGS) -c $<
+
+lib: $(GNUPG_LIB)
 
 header: $(JNI_HEADERS)
 
@@ -52,5 +54,5 @@ test:
 	echo "JNI_HEADERS: $(JNI_HEADERS)"
 	echo "SOURCES: $(SOURCES)"
 
-%.o: %.c $(JNI_HEADERS) gpgmeutils.h
-	$(CC) $(DEBUG) $(CFLAGS) $(CPPFLAGS) -c $<
+
+.PHONY: lib header mids clean test
