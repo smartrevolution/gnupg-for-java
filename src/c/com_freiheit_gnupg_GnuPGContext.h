@@ -7,13 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     com_freiheit_gnupg_GnuPGContext
- * Method:    gpgmeCheckVersion
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_com_freiheit_gnupg_GnuPGContext_gpgmeCheckVersion
-  (JNIEnv *, jclass);
 
 /*
  * Class:     com_freiheit_gnupg_GnuPGContext

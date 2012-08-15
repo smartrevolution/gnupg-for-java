@@ -14,11 +14,6 @@
 
 package com.freiheit.gnupg;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
    Start here, because for all operations, you first need to create a
@@ -59,6 +54,11 @@ import java.io.InputStreamReader;
  */
 
 public class GnuPGContext extends GnuPGPeer{
+
+    static {
+        System.loadLibrary("gnupg-for-java");
+    }
+
     private String _version;
     private String _filename;
     private String _reqversion;
@@ -495,16 +495,13 @@ public class GnuPGContext extends GnuPGPeer{
        GPGME methods. So, if you want to know what these methods
        are actually doing: Please refer to the GPGME docs.
      */
-    private native static void gpgmeCheckVersion();
     private native void gpgmeGetEngineInfo();
     private native long gpgmeNew();
     private native void gpgmeOpEncrypt(long l, long[] recipientsInternals, long m, long n);
     private native void gpgmeOpDecrypt(long l, long m, long n);
     private native void gpgmeOpChangePassphrase(long l, long m );
     private native void gpgmeRelease(long l);
-    @SuppressWarnings("unused")
     private native void gpgmeOpEncryptSign(long context, int[] recipients, long plain, long cipher);
-    @SuppressWarnings("unused")
     private native void gpgmeOpDecryptVerify(long context, long cipher, long plain);
     private native void gpgmeOpSign(long context, long l, long m);
     private native void gpgmeOpVerify(long context, long l, long m, long n);
@@ -524,124 +521,6 @@ public class GnuPGContext extends GnuPGPeer{
     private native long gpgmeGetTextmode(long l);
     private native void gpgmeSetTextmode(long l, long state);
 
-    private static final String NATIVE_LIBRARY_BASENAME = "libgnupg-for-java";
-
-    /*
-      It is not possible, to load a shared library directly
-      from a Jar-Archive. But there is an acceptable workaround:
-      - Put the shared library in the Jar-Archive
-      - When the classes get loaded:
-        - read the shared library from the Jar-Archive
-        - save it to the standard temp location in the file systems on this platform
-        - load it from there
-        - tell java, to automatically get rid of the lib, when the JVM exits (deleteOnExit)
-
-      This way, the library containing the JNI calls must not be installed extra.
-      It is delivered inside the Jar-Archive, stored temporarily and disappears on exit.
-     */
-    static {
-        // TODO all this guessing is still rather rough, however it will work
-        // with most *ix systems and *MAY* work with Windows once we've come
-        // to test such a setup...
-        String nativeLibraryExtension = getNativeLibraryExtension();
-
-        System.out.println("guessed native library extension " + nativeLibraryExtension);
-
-        String libName = getNativeLibraryName();
-
-        System.out.println("guessed native library name " + libName);
-
-        try{
-            InputStream in = GnuPGContext.class.getResource(libName).openStream();
-            File tempLib = File.createTempFile(NATIVE_LIBRARY_BASENAME, "." + nativeLibraryExtension);
-            FileOutputStream out = new FileOutputStream(tempLib);
-            byte[] buf = new byte[4096];
-            for (int i = in.read(buf); i != -1; i = in.read(buf)){
-                out.write(buf, 0, i);
-            }
-            out.close();
-            tempLib.deleteOnExit();
-            System.out.println("Trying to load temporary library: " +  tempLib.getPath());
-            System.load(tempLib.getPath());
-            //This call is really important, as it initializes the GPGME thread system!!!!
-            gpgmeCheckVersion();//FIXME: But: This is NOT working correctly!!!
-            //----------------------------------------------------------------------------
-        }
-        catch(Throwable e){
-            System.out.println("Unable to load shared library from Jar-File.");
-            System.out.println("Maybe GnuPG for Java is not allowed to write to your disk? (Access problems?)");
-            System.out.println("Or the used GnuPG jar-file is not compiled for the current environment/architecture (JavaGnuPG is platform dependent!).");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-
-    /**
-     * Determines the native library name for the system this is running on.
-     * If running on unix, we also try to guess the architecture's bit-ness
-     * which has an impact on the library's name
-     * @return the name
-     */
-    private static String getNativeLibraryName() {
-
-        // if all fails we assume windblows
-        String libName = "/c/gnupg-for-java";
-
-        try {
-            ProcessBuilder pb = new ProcessBuilder(new String[] { "/bin/uname", "-m" });
-            pb.redirectErrorStream(true);
-            Process p = pb.start();
-            InputStreamReader isr = new InputStreamReader(p.getInputStream());
-            BufferedReader br = new BufferedReader(isr);
-
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-
-            while ((line = br.readLine()) != null) {
-                //System.out.println(line);
-                sb.append(line + "\n");
-            }
-
-            String uName = sb.toString().trim();
-            libName = uName.endsWith("_64") ? "/c/libgnupg-for-java.64" : "/c/libgnupg-for-java.32";
-        } catch (Exception e) {
-            System.err.println("Cannot execute 'uname'. Probably running on a non unix environment.");
-            /* nothing here, may add some debug output */
-            e.printStackTrace();
-        }
-
-        return libName + "." + getNativeLibraryExtension();
-    }
-
-    /**
-     * Guesses the native library extension for the system this is running on.
-     * On unix systems, the extension is "so", on windows it is "dll".
-     * @return the extension
-     */
-    private static String getNativeLibraryExtension() {
-
-        // try to detect a unix system
-        File libDir = null;
-        for (String dirName : new String[] { "/lib", "/usr/lib" }) {
-            libDir = new File(dirName);
-            if (libDir.exists() && libDir.isDirectory()) {
-                String[] found = libDir.list();
-                if (found != null && found.length > 0) {
-                    for (String file : found) {
-                        // if we find any file matching lib*.so, we assume unix
-                        if (file.startsWith("lib") && file.endsWith(".so")) {
-                            return "so";
-                        }
-                    }
-                }
-            }
-        }
-
-        // could not detect a unix system? assume winblows...
-        return "dll";
-    }
 }
 
 /*

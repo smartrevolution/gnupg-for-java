@@ -76,9 +76,12 @@ passphrase_cb(void *hook, const char *uid_hint, const char *passphrase_info,
     return GPG_ERR_NO_ERROR;
 }
 
-JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeCheckVersion(JNIEnv * env, jclass cls)
+JNIEXPORT jint JNICALL
+JNI_OnLoad(JavaVM *vm, void *reserved)
 {
+    _jvm = vm;
+
+    // TODO set locale from the Java setting
     setlocale(LC_ALL, "");
     //FIXME: The tests are hanging, when I use check_version, which is actually
     // initializing the threading subsystem...hmmm..
@@ -86,6 +89,8 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeCheckVersion(JNIEnv * env, jclass cls)
     //printf("VERSION: %s\n", version);
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
     gpgme_set_locale(NULL, LC_MESSAGES, setlocale(LC_MESSAGES, NULL));
+
+    return JNI_VERSION_1_6;
 }
 
 JNIEXPORT void JNICALL
@@ -113,9 +118,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeNew(JNIEnv * env, jobject self)
     gpgme_set_textmode(ctx, 1);
     gpgme_set_keylist_mode(ctx,
 			   GPGME_KEYLIST_MODE_LOCAL | GPGME_KEYLIST_MODE_SIGS);
-
-    //store a handle to this jvm in a global variable
-    (*env)->GetJavaVM(env, &_jvm);
 
     return LNG(ctx);
 }
