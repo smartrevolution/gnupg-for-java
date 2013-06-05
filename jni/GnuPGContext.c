@@ -108,8 +108,7 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeGetEngineInfo(JNIEnv * env,
-							jobject self)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeGetEngineInfo(JNIEnv * env, jobject self)
 {
     gpgme_engine_info_t engineInfo;
     gpgme_get_engine_info(&engineInfo);
@@ -139,10 +138,12 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeNew(JNIEnv * env, jobject self)
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpEncrypt(JNIEnv * env, jobject self,
-						    jlong context,
-						    jlongArray recipients,
-						    jlong plain, jlong cipher)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpEncrypt(JNIEnv * env,
+                                                    jobject self,
+                                                    jlong context,
+                                                    jlongArray recipients,
+                                                    jlong plain,
+                                                    jlong cipher)
 {
     gpgme_error_t err;
 
@@ -189,9 +190,11 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpEncrypt(JNIEnv * env, jobject self,
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDecrypt(JNIEnv * env, jobject self,
-						    jlong context, jlong cipher,
-						    jlong plain)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDecrypt(JNIEnv * env,
+                                                    jobject self,
+                                                    jlong context,
+                                                    jlong cipher,
+                                                    jlong plain)
 {
     gpgme_error_t err;
 
@@ -278,9 +281,9 @@ edit_fnc(void *opaque, gpgme_status_code_t status, const char *args, int fd)
 
 JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpChangePassphrase(JNIEnv * env,
-							     jobject self,
-							     jlong context,
-							     jlong keydata)
+                                                             jobject self,
+                                                             jlong context,
+                                                             jlong keydata)
 {
     gpgme_error_t err;
 
@@ -314,19 +317,20 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpChangePassphrase(JNIEnv * env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeRelease(JNIEnv * env, jobject self,
-						  jlong context)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeRelease(JNIEnv * env,
+                                                  jobject self,
+                                                  jlong context)
 {
     gpgme_release(CONTEXT(context));
 }
 
 JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpEncryptSign(JNIEnv * env,
-							jobject self,
-							jlong context,
-							jlongArray recipients,
-							jlong plain,
-							jlong cipher)
+                                                        jobject self,
+                                                        jlong context,
+                                                        jlongArray recipients,
+                                                        jlong plain,
+                                                        jlong cipher)
 {
     gpgme_error_t err;
 
@@ -366,10 +370,10 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpEncryptSign(JNIEnv * env,
 
 JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDecryptVerify(JNIEnv * env,
-							  jobject self,
-							  jlong context,
-							  jlong cipher,
-							  jlong plain)
+                                                          jobject self,
+                                                          jlong context,
+                                                          jlong cipher,
+                                                          jlong plain)
 {
     gpgme_error_t err;
 
@@ -400,9 +404,11 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDecryptVerify(JNIEnv * env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpSign(JNIEnv * env, jobject self,
-						 jlong context, jlong plain,
-						 jlong signature)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpSign(JNIEnv * env,
+                                                 jobject self,
+                                                 jlong context,
+                                                 jlong plain,
+                                                 jlong signature)
 {
     gpgme_error_t err;
 
@@ -436,10 +442,12 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpSign(JNIEnv * env, jobject self,
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpVerify(JNIEnv * env, jobject self,
-						   jlong context,
-						   jlong signature,
-						   jlong signedtxt, jlong plain)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpVerify(JNIEnv * env,
+                                                   jobject self,
+                                                   jlong context,
+                                                   jlong signature,
+                                                   jlong signedtxt,
+                                                   jlong plain)
 {
     gpgme_error_t err;
 
@@ -476,8 +484,10 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpVerify(JNIEnv * env, jobject self,
 }
 
 JNIEXPORT jobjectArray JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
-                                                  jlong context, jstring query,
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env,
+                                                  jobject self,
+                                                  jlong context,
+                                                  jstring query,
                                                   jboolean secret_only)
 {
     gpgme_error_t err;
@@ -553,8 +563,10 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeAddSigners(JNIEnv * env, jobject self,
-						     jlong context, jlong key)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeAddSigners(JNIEnv * env,
+                                                     jobject self,
+                                                     jlong context,
+                                                     jlong key)
 {
     gpgme_error_t err;
     err = gpgme_signers_add(CONTEXT(context), KEY(key));
@@ -565,8 +577,8 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeAddSigners(JNIEnv * env, jobject self,
 
 JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeClearSigners(JNIEnv * env,
-						       jobject self,
-						       jlong context)
+                                                       jobject self,
+                                                       jlong context)
 {
     gpgme_signers_clear(CONTEXT(context));
 }
@@ -699,8 +711,10 @@ void check_result(gpgme_import_result_t result, char *fpr, int secret)
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpImport(JNIEnv * env, jobject self,
-						   jlong context, jlong keydata)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpImport(JNIEnv * env,
+                                                   jobject self,
+                                                   jlong context,
+                                                   jlong keydata)
 {
     gpgme_error_t err;
     gpgme_import_result_t result;
@@ -740,40 +754,44 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpImport(JNIEnv * env, jobject self,
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeGetArmor(JNIEnv * env, jobject self,
-						   jlong context)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeGetArmor(JNIEnv * env,
+                                                   jobject self,
+                                                   jlong context)
 {
     return (jlong) gpgme_get_armor(CONTEXT(context));
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeSetArmor(JNIEnv * env, jobject self,
-						   jlong context,
-						   jlong armor_state)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeSetArmor(JNIEnv * env,
+                                                   jobject self,
+                                                   jlong context,
+                                                   jlong armor_state)
 {
     gpgme_set_armor(CONTEXT(context), (int) armor_state);
 }
 
 JNIEXPORT jlong JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeGetTextmode(JNIEnv * env,
-						      jobject self,
-						      jlong context)
+                                                      jobject self,
+                                                      jlong context)
 {
     return (jlong) gpgme_get_textmode(CONTEXT(context));
 }
 
 JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeSetTextmode(JNIEnv * env,
-						      jobject self,
-						      jlong context, jlong mode)
+                                                      jobject self,
+                                                      jlong context,
+                                                      jlong mode)
 {
     gpgme_set_textmode(CONTEXT(context), (int) mode);
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpGenKey(JNIEnv * env, jobject self,
-						   jlong context,
-						   jstring params)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpGenKey(JNIEnv * env,
+                                                   jobject self,
+                                                   jlong context,
+                                                   jstring params)
 {
 
     gpgme_ctx_t ctx = CONTEXT(context);
@@ -796,11 +814,12 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpGenKey(JNIEnv * env, jobject self,
 
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpExport(JNIEnv * env, jobject self,
-						   jlong context,
-						   jstring pattern,
-						   jlong reserved,
-						   jlong keydata)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpExport(JNIEnv * env,
+                                                   jobject self,
+                                                   jlong context,
+                                                   jstring pattern,
+                                                   jlong reserved,
+                                                   jlong keydata)
 {
 
     gpgme_ctx_t ctx = CONTEXT(context);
@@ -819,11 +838,11 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpExport(JNIEnv * env, jobject self,
 
 JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeCtxSetEngineInfo(JNIEnv * env,
-							   jobject self,
-							   jlong ctx,
-							   jint proto,
-							   jstring fileName,
-							   jstring homeDir)
+                                                           jobject self,
+                                                           jlong ctx,
+                                                           jint proto,
+                                                           jstring fileName,
+                                                           jstring homeDir)
 {
 
     gpgme_ctx_t context = CONTEXT(ctx);
@@ -851,8 +870,8 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeCtxSetEngineInfo(JNIEnv * env,
 
 JNIEXPORT jobject JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpGenkeyResult(JNIEnv * env,
-							 jobject self,
-							 jlong ctx)
+                                                         jobject self,
+                                                         jlong ctx)
 {
 
     gpgme_ctx_t context = CONTEXT(ctx);
@@ -888,9 +907,11 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpGenkeyResult(JNIEnv * env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDelete(JNIEnv * env, jobject self,
-						   jlong ctx, jlong key,
-						   jboolean allowSecret)
+Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDelete(JNIEnv * env,
+                                                   jobject self,
+                                                   jlong ctx,
+                                                   jlong key,
+                                                   jboolean allowSecret)
 {
 
     gpgme_ctx_t context = CONTEXT(ctx);
