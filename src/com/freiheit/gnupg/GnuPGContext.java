@@ -154,6 +154,7 @@ public class GnuPGContext extends GnuPGPeer{
     public boolean getTextmode(){
         return gpgmeGetTextmode(getInternalRepresentation());
     }
+
     /**
        Tell the gpg engine to set the text mode.
        Please check GPG/GPGME for documentation if you don't know what this means.
@@ -576,6 +577,24 @@ public class GnuPGContext extends GnuPGPeer{
 
         gpgmeOpDecrypt(this.getInternalRepresentation(),
                        cipher.getInternalRepresentation(), plain.getInternalRepresentation());
+    }
+
+    /**
+     * Decrypts the data from <code>cipher</code> and stores the result in
+     * <code>plain</code>, then verifies the signature of the data. If the
+     * decryption or verification fails, it throws a <code>GnuPGException</code>.
+     * 
+     * @param <code>cipher</code> holds the data to be decrypted and verified
+     * @param <code>plain</code> holds the decrypted data after decryption
+     * @see com.freiheit.gnupg.GnuPGData
+     */
+    public void decryptVerify(GnuPGData cipher, GnuPGData plain) throws GnuPGException {
+        if (cipher == null || plain == null)
+            return;
+
+        gpgmeOpDecryptVerify(this.getInternalRepresentation(),
+                cipher.getInternalRepresentation(),
+                plain.getInternalRepresentation());
     }
 
     public void changePassphrase( GnuPGKey key ) throws GnuPGException {
