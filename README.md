@@ -14,3 +14,7 @@ this to the jar and extend the loading mechanism to load a DLL on a Windows plat
 instead of loading a .so lib.
 
 
+## Hacking Notes
+
+Please conform to our code format standard. For C files use format-code.sh.
+
