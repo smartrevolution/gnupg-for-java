@@ -18,6 +18,7 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+
 /**
    Start here, because for all operations, you first need to create a
    GnuPGContext. Use one context object for every single thread or
@@ -57,7 +58,7 @@ import java.io.IOException;
  */
 
 public class GnuPGContext extends GnuPGPeer{
-
+	public static final String TAG = "GnuPGContext";
     static {
         System.loadLibrary("gnupg-for-java");
     }
