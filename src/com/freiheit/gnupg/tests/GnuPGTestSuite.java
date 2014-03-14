@@ -11,6 +11,7 @@
  *
  * Please see COPYING for the complete licence.
  */
+
 package com.freiheit.gnupg.tests;
 
 import java.util.Iterator;
@@ -25,113 +26,112 @@ import com.freiheit.gnupg.GnuPGKey;
 import com.freiheit.gnupg.GnuPGSignature;
 
 /**
-   I will improve this TestSuite later, that everybody can run it without
-   specific fingerprints. It should behave like the tests in gpgme.
-   <p>
-   But the tests can also be seen as code examples.
-
-   @author Stefan Richter, stefan@freiheit.com
+ * I will improve this TestSuite later, that everybody can run it without
+ * specific fingerprints. It should behave like the tests in gpgme.
+ * <p>
+ * But the tests can also be seen as code examples.
+ * 
+ * @author Stefan Richter, stefan@freiheit.com
  */
-public class GnuPGTestSuite extends TestCase{
+public class GnuPGTestSuite extends TestCase {
 
     private static String HOME = "/tmp/gnupg-for-java-tests";
     private static String PLAINTEXT = "I am a not so secret text.";
-    //Currently, you can not run these test without these fingerprints.
-    //And: You need to know the passphrases...forget it.
+    // Currently, you can not run these test without these fingerprints.
+    // And: You need to know the passphrases...forget it.
     // but you could add your own fingerprints...
     private static String CD_FPR = "1C12878CFAA2ECDC81DC43DB12262834A6123FF6";
-    //private static String SR_FPR = "F05F385DFA40962D0075AB9C2B80170D";
+    // private static String SR_FPR = "F05F385DFA40962D0075AB9C2B80170D";
     private static String SR_FPR = "BE54B261FDDF09025D249CAF948C94764B9A38DB";
 
-    //private static GnuPGKey person1 = null;
-    //private static GnuPGKey person2 = null;
-
+    // private static GnuPGKey person1 = null;
+    // private static GnuPGKey person2 = null;
 
     public static Test suite() {
         System.out.println("suite()");
-        TestSuite suite= new TestSuite(GnuPGTestSuite.class);
+        TestSuite suite = new TestSuite(GnuPGTestSuite.class);
         GnuPGContext ctx = getContext();
 
-        String person1Key = " <GnupgKeyParms format=\"internal\">\n"+
-            "Key-Type: DSA\n"+
-            "Key-Length: 1024\n"+
-            "Subkey-Type: ELG-E\n"+
-            "Subkey-Length: 1024\n"+
-            "Name-Real: alpha\n"+
-            "Name-Comment: just a test\n"+
-            "Name-Email: alpha@alpha.org\n"+
-            "Expire-Date: 0\n"+
-            "Passphrase: alpha\n"+
-            "</GnupgKeyParms>";
-        ctx.genKey(person1Key,null,null);
-        //String fpr1 = ctx.getGenkeyResult().getFpr();
+        String person1Key = " <GnupgKeyParms format=\"internal\">\n" +
+                "Key-Type: DSA\n" +
+                "Key-Length: 1024\n" +
+                "Subkey-Type: ELG-E\n" +
+                "Subkey-Length: 1024\n" +
+                "Name-Real: alpha\n" +
+                "Name-Comment: just a test\n" +
+                "Name-Email: alpha@alpha.org\n" +
+                "Expire-Date: 0\n" +
+                "Passphrase: alpha\n" +
+                "</GnupgKeyParms>";
+        ctx.genKey(person1Key, null, null);
+        // String fpr1 = ctx.getGenkeyResult().getFpr();
 
-        String person2Key = " <GnupgKeyParms format=\"internal\">\n"+
-            "Key-Type: DSA\n"+
-            "Key-Length: 1024\n"+
-            "Subkey-Type: ELG-E\n"+
-            "Subkey-Length: 1024\n"+
-            "Name-Real: beta\n"+
-            "Name-Comment: just a test\n"+
-            "Name-Email: beta@beta.org\n"+
-            "Expire-Date: 0\n"+
-            "Passphrase: beta\n"+
-        "</GnupgKeyParms>";
-        ctx.genKey(person2Key,null,null);
-        //String fpr2 = ctx.getGenkeyResult().getFpr();
+        String person2Key = " <GnupgKeyParms format=\"internal\">\n" +
+                "Key-Type: DSA\n" +
+                "Key-Length: 1024\n" +
+                "Subkey-Type: ELG-E\n" +
+                "Subkey-Length: 1024\n" +
+                "Name-Real: beta\n" +
+                "Name-Comment: just a test\n" +
+                "Name-Email: beta@beta.org\n" +
+                "Expire-Date: 0\n" +
+                "Passphrase: beta\n" +
+                "</GnupgKeyParms>";
+        ctx.genKey(person2Key, null, null);
+        // String fpr2 = ctx.getGenkeyResult().getFpr();
 
         System.out.println("done suite()");
         return suite;
     }
 
-    public static GnuPGContext getContext(){
+    public static GnuPGContext getContext() {
         GnuPGContext ctx = new GnuPGContext();
-        ctx.setEngineInfo(ctx.getProtocol(),ctx.getFilename(),HOME);
+        ctx.setEngineInfo(ctx.getProtocol(), ctx.getFilename(), HOME);
         return ctx;
     }
 
-    public void testEngine(){
+    public void testEngine() {
         GnuPGContext ctx = new GnuPGContext();
         ctx.getVersion();
         ctx.getFilename();
         ctx.getRequiredVersion();
     }
 
-    public void testContextSetterAndGetter(){
+    public void testContextSetterAndGetter() {
         GnuPGContext ctx = new GnuPGContext();
 
         // Test set/isArmor()
-        assertTrue(ctx.isArmor());//default: true
+        assertTrue(ctx.isArmor());// default: true
         ctx.setArmor(false);
         assertFalse(ctx.isArmor());
         ctx.setArmor(true);
         assertTrue(ctx.isArmor());
 
         // Test set/isTextmode()
-        assertTrue(ctx.isTextmode());//default: true
+        assertTrue(ctx.isTextmode());// default: true
         ctx.setTextmode(false);
         assertFalse(ctx.isTextmode());
         ctx.setTextmode(true);
         assertTrue(ctx.isTextmode());
     }
 
-    public void testKeySearch(){
+    public void testKeySearch() {
         GnuPGContext ctx = new GnuPGContext();
         GnuPGKey[] keys = ctx.searchKeys("stefan");
 
         assertNotNull(keys);
 
-        for(int i=0; keys != null && i < keys.length; i++){
+        for (int i = 0; keys != null && i < keys.length; i++) {
             assertNotNull(keys[i]);
             Iterator iter = keys[i].getSignatures();
-            System.out.println(keys[i]);//Uncomment to print each key
-            while(iter.hasNext()){
-                assertNotNull((GnuPGSignature)iter.next());
+            System.out.println(keys[i]);// Uncomment to print each key
+            while (iter.hasNext()) {
+                assertNotNull((GnuPGSignature) iter.next());
             }
         }
     }
 
-    public void testEncryptForOneRecipient(){
+    public void testEncryptForOneRecipient() {
         GnuPGContext ctx = new GnuPGContext();
         GnuPGData plain = ctx.createDataObject(PLAINTEXT);
         GnuPGData cipher = ctx.createDataObject();
@@ -144,7 +144,7 @@ public class GnuPGTestSuite extends TestCase{
         assertNotNull(cipher.toString());
     }
 
-    public void testEncryptForTwoRecipients(){
+    public void testEncryptForTwoRecipients() {
         GnuPGContext ctx = new GnuPGContext();
         GnuPGData plain = ctx.createDataObject(PLAINTEXT);
         GnuPGData cipher = ctx.createDataObject();
@@ -158,7 +158,7 @@ public class GnuPGTestSuite extends TestCase{
         assertNotNull(cipher.toString());
     }
 
-    public void testDecryptFromOneRecipient(){
+    public void testDecryptFromOneRecipient() {
         GnuPGContext ctx = new GnuPGContext();
         GnuPGData plain = ctx.createDataObject(PLAINTEXT);
         GnuPGData cipher = ctx.createDataObject();
@@ -174,7 +174,7 @@ public class GnuPGTestSuite extends TestCase{
         assertEquals(decrypted.toString(), PLAINTEXT);
     }
 
-    public void testAddAndClearSigners(){
+    public void testAddAndClearSigners() {
         GnuPGContext ctx = new GnuPGContext();
         GnuPGKey signer1 = ctx.getKeyByFingerprint(SR_FPR);
         GnuPGKey signer2 = ctx.getKeyByFingerprint(CD_FPR);
@@ -184,7 +184,7 @@ public class GnuPGTestSuite extends TestCase{
         ctx.clearSigners();
     }
 
-    public void testSign(){
+    public void testSign() {
         GnuPGContext ctx = new GnuPGContext();
         GnuPGData plain = ctx.createDataObject(PLAINTEXT);
         GnuPGData signature = ctx.createDataObject();
@@ -203,9 +203,9 @@ public class GnuPGTestSuite extends TestCase{
         GnuPGContext ctx = new GnuPGContext();
 
         String plaintext = "HALLLLLLLLLLO";
-        System.out.println( "plaintext: " + plaintext );
+        System.out.println("plaintext: " + plaintext);
         GnuPGData plain = ctx.createDataObject(plaintext);
-        System.out.println( "plain (from data object): \"" + plain.toString()  + "\"");
+        System.out.println("plain (from data object): \"" + plain.toString() + "\"");
         GnuPGData encrypted = ctx.createDataObject();
 
         GnuPGKey[] recipients = ctx.generateEmptyKeyArray(1);
@@ -213,11 +213,11 @@ public class GnuPGTestSuite extends TestCase{
 
         ctx.encrypt(recipients, plain, encrypted);
 
-        System.out.println("encrypted (from data object: \"" + encrypted.toString()  + "\"");
+        System.out.println("encrypted (from data object: \"" + encrypted.toString() + "\"");
 
         String encStr = encrypted.toString();
 
-        assertNotNull( encStr );
+        assertNotNull(encStr);
         assertFalse("Encrypted message cannot be empty.", encStr.length() == 0);
 
     }
