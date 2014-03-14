@@ -170,7 +170,6 @@ Java_com_freiheit_gnupg_GnuPGData_gpgmeDataRead(JNIEnv* env, jobject self,
         return;
     }
 
-    ssize_t written;
     while ((nread = (*env)->CallIntMethod(env, in, readMethod,
                                           jbuf, (jint)0, BUFSIZE)) != -1) {
 
@@ -179,7 +178,7 @@ Java_com_freiheit_gnupg_GnuPGData_gpgmeDataRead(JNIEnv* env, jobject self,
             return;
         }
 
-        written = gpgme_data_write(DATA(data), buf, nread);
+        gpgme_data_write(DATA(data), buf, nread);
         if ((*env)->ExceptionCheck(env)) {
             (*env)->DeleteLocalRef(env, jbuf);
             return;

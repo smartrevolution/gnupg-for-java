@@ -17,7 +17,7 @@ CC := gcc
 INSTALL := install -m 644
 
 DEBUG := -g
-CFLAGS := -Werror -Wall -Wno-deprecated-declarations -Wno-unused-but-set-variable \
+CFLAGS := -Werror -Wall -Wno-deprecated-declarations \
 	-fPIC $(shell gpgme-config --cflags)
 CPPFLAGS = -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -DLARGEFILE_SOURCE=1 \
 	-I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux \
