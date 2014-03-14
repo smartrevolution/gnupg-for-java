@@ -3,4 +3,6 @@ dist/
 hs_err_pid*.log
 jni/*.o
 jni/*.orig
+# generated JNI headers
+jni/com_freiheit_gnupg_GnuPG*.h
 lib/libgnupg-for-java.so
