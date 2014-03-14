@@ -13,14 +13,16 @@
  */
 package com.freiheit.gnupg.tests;
 
-import java.io.File;
 import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import com.freiheit.gnupg.*;
+import com.freiheit.gnupg.GnuPGContext;
+import com.freiheit.gnupg.GnuPGData;
+import com.freiheit.gnupg.GnuPGKey;
+import com.freiheit.gnupg.GnuPGSignature;
 
 /**
    I will improve this TestSuite later, that everybody can run it without
@@ -131,7 +133,6 @@ public class GnuPGTestSuite extends TestCase{
 
     public void testEncryptForOneRecipient(){
         GnuPGContext ctx = new GnuPGContext();
-        ctx.setPassphraseListener(new GnuPGPassphraseWindow());
         GnuPGData plain = ctx.createDataObject(PLAINTEXT);
         GnuPGData cipher = ctx.createDataObject();
 
@@ -145,7 +146,6 @@ public class GnuPGTestSuite extends TestCase{
 
     public void testEncryptForTwoRecipients(){
         GnuPGContext ctx = new GnuPGContext();
-        ctx.setPassphraseListener(new GnuPGPassphraseWindow());
         GnuPGData plain = ctx.createDataObject(PLAINTEXT);
         GnuPGData cipher = ctx.createDataObject();
 
@@ -160,7 +160,6 @@ public class GnuPGTestSuite extends TestCase{
 
     public void testDecryptFromOneRecipient(){
         GnuPGContext ctx = new GnuPGContext();
-        ctx.setPassphraseListener(new GnuPGPassphraseWindow());
         GnuPGData plain = ctx.createDataObject(PLAINTEXT);
         GnuPGData cipher = ctx.createDataObject();
         GnuPGData decrypted = ctx.createDataObject();
@@ -187,7 +186,6 @@ public class GnuPGTestSuite extends TestCase{
 
     public void testSign(){
         GnuPGContext ctx = new GnuPGContext();
-        ctx.setPassphraseListener(new GnuPGPassphraseWindow());
         GnuPGData plain = ctx.createDataObject(PLAINTEXT);
         GnuPGData signature = ctx.createDataObject();
 
@@ -203,7 +201,6 @@ public class GnuPGTestSuite extends TestCase{
 
     public void testEncrypt() {
         GnuPGContext ctx = new GnuPGContext();
-        ctx.setPassphraseListener(new GnuPGPassphraseConsole());
 
         String plaintext = "HALLLLLLLLLLO";
         System.out.println( "plaintext: " + plaintext );
