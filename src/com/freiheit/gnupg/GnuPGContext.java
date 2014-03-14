@@ -19,8 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import android.util.Log;
-
 /**
  * Start here, because for all operations, you first need to create a
  * GnuPGContext. Use one context object for every single thread or (really) take
@@ -703,7 +701,7 @@ public class GnuPGContext extends GnuPGPeer {
     public void importKey(File file) throws GnuPGException, IOException {
         GnuPGData keydata = createDataObject(file);
         if (keydata == null) {
-            Log.e(TAG, "importkey: parsing key data failed");
+            System.out.println("importkey: parsing key data failed");
             return;
         }
         gpgmeOpImport(getInternalRepresentation(), keydata.getInternalRepresentation());
