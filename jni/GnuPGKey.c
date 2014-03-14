@@ -163,7 +163,6 @@ JNIEXPORT jboolean JNICALL
 Java_com_freiheit_gnupg_GnuPGKey_gpgmeHasSecretKey(JNIEnv* env, jobject self,
         jlong key)
 {
-    jboolean hasSecretKey = 0;
     gpgme_subkey_t subkey;
     for (subkey = KEY(key)->subkeys; subkey; subkey = subkey->next)
         if (subkey->secret)

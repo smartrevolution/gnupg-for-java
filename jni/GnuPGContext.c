@@ -22,7 +22,6 @@ JNI_OnLoad(JavaVM* vm, void* reserved)
 
     // TODO set locale from the JavaVM's config
     setlocale(LC_ALL, "");
-    const char* version = gpgme_check_version(NULL);
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
 #ifdef LC_MESSAGES
     gpgme_set_locale(NULL, LC_MESSAGES, setlocale(LC_MESSAGES, NULL));
