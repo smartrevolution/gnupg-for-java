@@ -85,14 +85,13 @@
         <copy todir="build/docs/images" file="etc/whitepaper.gif"/>
         <copy todir="build/docs/images" file="etc/fdc.javadoc.png"/>
 
-        <javadoc sourcepath="src/java"
+        <javadoc sourcepath="src"
                     destdir="build/docs/${app.name}-${app.version}"
                 windowtitle="${app.name} (Version ${app.version})"
                    doctitle="${app.name} (Version ${app.version})"
                      bottom="&#169; ${app.year} ${app.vendor}"
                      header="freiheit.com technologies gmbh"
                packagenames="com.freiheit.*"
-             stylesheetfile="${etc}/stylesheet.css"
                    overview="${etc}/overview.html">
           <!--classpath refid="compile.classpath"/-->
             <!--
