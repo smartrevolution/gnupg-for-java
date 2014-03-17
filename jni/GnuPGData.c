@@ -5,6 +5,7 @@
 #include "gpgmeutils.h"
 
 #include <gpgme.h>
+// TODO, this is a private header, figure out public techniques...
 #include <data.h>
 
 #define BUFSIZE 1024
