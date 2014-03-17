@@ -82,7 +82,7 @@
     <target name="javadoc" description="Create Javadoc-API documentation">
         <mkdir  dir="build/docs/api"/>
         <mkdir  dir="build/docs/images"/>
-        <copy todir="build/docs/images" file="etc/whitepaper.gif"/>
+        <copy todir="build/docs/images" file="etc/guardianproject-logo.png"/>
         <copy todir="build/docs/images" file="etc/fdc.javadoc.png"/>
 
         <javadoc sourcepath="src"
@@ -90,7 +90,7 @@
                 windowtitle="${app.name} (Version ${app.version})"
                    doctitle="${app.name} (Version ${app.version})"
                      bottom="&#169; ${app.year} ${app.vendor}"
-                     header="freiheit.com technologies gmbh"
+                     header="freiheit.com technologies gmbh &amp; The Guardian Project"
                packagenames="com.freiheit.*"
                    overview="${etc}/overview.html">
           <!--classpath refid="compile.classpath"/-->
