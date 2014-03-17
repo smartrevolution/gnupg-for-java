@@ -28,14 +28,14 @@ LDFLAGS := $(shell gpgme-config --thread=pthread --libs)
 $(GNUPG_LIB): $(OBJECTS)
 	$(CC) $(DEBUG) -shared $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-$(OBJECTS): $(SOURCES) $(JNI_HEADERS) gpgmeutils.h
+$(OBJECTS): $(SOURCES) gpgmeutils.h
 
 %.o: %.c
 	$(CC) $(DEBUG) $(CFLAGS) $(CPPFLAGS) -c $<
 
 lib: $(GNUPG_LIB)
 
-header: $(JNI_HEADERS)
+headers: $(JNI_HEADERS)
 
 $(JNI_HEADERS):
 	$(JAVAH) -classpath $(JAVA_BUILD) -jni $(JNI_CLASSES)
@@ -46,6 +46,7 @@ mids:
 clean:
 	rm -f $(OBJECTS) *~
 	rm -f $(GNUPG_LIB)
+	rm -f $(JNI_HEADERS)
 
 test:
 	echo "JAVA_HOME: --$(JAVA_HOME)--"
