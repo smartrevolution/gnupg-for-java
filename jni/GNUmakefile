@@ -55,5 +55,8 @@ test:
 	echo "JNI_HEADERS: $(JNI_HEADERS)"
 	echo "SOURCES: $(SOURCES)"
 
+TAGS:
+	etags *.c *.h
+
 
 .PHONY: lib header mids clean test
