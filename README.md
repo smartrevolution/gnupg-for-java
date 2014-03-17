@@ -21,7 +21,24 @@ the jar and extend the loading mechanism to load a DLL on a Windows platform
 instead of loading a .so lib.
 
 
+## Building
+
+To build the gnupg-for-java.jar in build/jar/, run this:
+
+    ant clean jar
+
+If you want the optional javadoc in build/docs/, run:
+
+    ant javadoc
+
+For the JNI headers, run:
+
+    make -C jni/ headers
+
+
 ## Hacking Notes
 
-Please conform to our code format standard. For C files use format-code.sh.
+Please conform to our code format standard. For C files use
+./format-code.sh. For Java files, use Eclipse with the Android mode from the
+Android project.  The default Eclipse formatting is usually close enough.
 
