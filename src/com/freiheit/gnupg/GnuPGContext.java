@@ -195,12 +195,14 @@ public class GnuPGContext extends GnuPGPeer {
     }
 
     /**
-     * Factory method to generate a GnuPGData-Object from a File.
+     * Factory method to generate a GnuPGData instance from a File.
      * 
-     * @param data should not be null be readable
-     * @return GnuPGData null is data is null or empty, otherwise a
-     *         GnuPGData-Object
+     * @param f should not be null or a directory and must be readable
+     * @return GnuPGData instance with data from <code>f</code>, unless
+     *         <code>f</code> is has no readable data in it, then it returns
+     *         null
      * @throws IOException
+     * @see com.freiheit.gnupg.GnuPGData
      */
     public GnuPGData createDataObject(File f) throws GnuPGException, IOException {
         if (f != null && f.exists() && !f.isDirectory() && f.canRead()) {
@@ -210,11 +212,13 @@ public class GnuPGContext extends GnuPGPeer {
     }
 
     /**
-     * Factory method to generate a GnuPGData-Object from a String.
+     * Factory method to generate a GnuPGData instance from a String.
      * 
      * @param data should not be null and should have a length > 0
-     * @return GnuPGData null is data is null or empty, otherwise a
-     *         GnuPGData-Object
+     * @return GnuPGData instance based on <code>data</code>, unless
+     *         <code>data</code> is null or has a length of 0, then it returns
+     *         null
+     * @see com.freiheit.gnupg.GnuPGData
      */
     public GnuPGData createDataObject(String data) throws GnuPGException {
         if (data == null || data.length() < 1) {
@@ -226,11 +230,13 @@ public class GnuPGContext extends GnuPGPeer {
     }
 
     /**
-     * Factory method to generate a GnuPGData-Object from a byte array.
+     * Factory method to generate a GnuPGData instance from a byte array.
      * 
      * @param data should not be null and should have a length > 0
-     * @return GnuPGData null is data is null or empty, otherwise a
-     *         GnuPGData-Object
+     * @return GnuPGData instance based on <code>data</code>, unless
+     *         <code>data</code> is null or has a length of 0, then it returns
+     *         null
+     * @see com.freiheit.gnupg.GnuPGData
      */
     public GnuPGData createDataObject(byte[] data) throws GnuPGException {
         if (data == null || data.length < 1) {
@@ -242,11 +248,10 @@ public class GnuPGContext extends GnuPGPeer {
     }
 
     /**
-     * Factory method to generate an empty GnuPGData-Object.
+     * Factory method to generate an empty GnuPGData instance.
      * 
-     * @param data should not be null and should have a length > 0
-     * @return GnuPGData null is data is null or empty, otherwise a
-     *         GnuPGData-Object
+     * @return an empty GnuPGData instance
+     * @see com.freiheit.gnupg.GnuPGData
      */
     public GnuPGData createDataObject() throws GnuPGException {
         return new GnuPGData();
@@ -578,8 +583,8 @@ public class GnuPGContext extends GnuPGPeer {
      * decryption or verification fails, it throws a <code>GnuPGException</code>
      * .
      * 
-     * @param <code>cipher</code> holds the data to be decrypted and verified
-     * @param <code>plain</code> holds the decrypted data after decryption
+     * @param cipher holds the data to be decrypted and verified
+     * @param plain holds the decrypted data after decryption
      * @see com.freiheit.gnupg.GnuPGData
      */
     public void decryptVerify(GnuPGData cipher, GnuPGData plain) throws GnuPGException {
@@ -669,8 +674,8 @@ public class GnuPGContext extends GnuPGPeer {
     /**
      * Get a specific Signer at a given index. You add Signers with addSigner().
      * 
-     * @param int index to the list of Signers
-     * @return GnuPGKey the key at index, or null if it doesn't exist
+     * @param index which signer in the list of Signers
+     * @return the GnuPGKey at index, or null if it doesn't exist
      * @see com.freiheit.gnupg.GnuPGKey
      */
     public GnuPGKey getSigner(int index) throws GnuPGException {
