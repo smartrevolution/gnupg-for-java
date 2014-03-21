@@ -1,3 +1,4 @@
+*.class
 build/
 dist/
 hs_err_pid*.log
