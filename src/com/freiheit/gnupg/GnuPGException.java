@@ -34,3 +34,5 @@ public class GnuPGException extends RuntimeException {
         super(msg);
     }
 }
+
+/* Local Variables: tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil; End: */

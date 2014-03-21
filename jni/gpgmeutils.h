@@ -44,3 +44,12 @@ inline static jlong _jlongFromPtr(void* p)
     return (jlong)(unsigned long) p;
 }
 #endif
+
+/*
+ * Local Variables:
+ * tab-width: 4;
+ * c-basic-offset: 4;
+ * c-file-style: k&r;
+ * indent-tabs-mode: nil;
+ * End:
+ */

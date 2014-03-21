@@ -129,3 +129,12 @@ void _gpgme_data_release(gpgme_data_t dh);
 int _gpgme_data_get_fd(gpgme_data_t dh);
 
 #endif  /* DATA_H */
+
+/*
+ * Local Variables:
+ * tab-width: 4;
+ * c-basic-offset: 4;
+ * c-file-style: k&r;
+ * indent-tabs-mode: nil;
+ * End:
+ */

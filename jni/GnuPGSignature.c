@@ -81,3 +81,12 @@ Java_com_freiheit_gnupg_GnuPGSignature_gpgmeGetNextSignature(JNIEnv* env,
 {
     return LNG((KEYSIG(sig))->next);
 }
+
+/*
+ * Local Variables:
+ * tab-width: 4;
+ * c-basic-offset: 4;
+ * c-file-style: k&r;
+ * indent-tabs-mode: nil;
+ * End:
+ */

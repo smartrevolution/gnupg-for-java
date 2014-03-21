@@ -286,10 +286,5 @@ public class GnuPGTestSuite extends TestCase {
 //    }
 
 }
-/*
- * Local variables:
- * c-basic-offset: 4
- * indent-tabs-mode: nil
- * compile-command: "ant -emacs -find build.xml"
- * End:
- */
+
+/* Local Variables: tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil; End: */

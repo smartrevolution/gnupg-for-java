@@ -852,3 +852,5 @@ public class GnuPGContext extends GnuPGPeer {
     private native void gpgmeSetTextmode(long l, boolean state);
 
 }
+
+/* Local Variables: tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil; End: */

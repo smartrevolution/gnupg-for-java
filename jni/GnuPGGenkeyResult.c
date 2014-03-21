@@ -29,3 +29,12 @@ Java_com_freiheit_gnupg_GnuPGGenkeyResult_gpgmeGetSub(JNIEnv* env,
 {
     return (GENKEYRESULT(result))->primary;
 }
+
+/*
+ * Local Variables:
+ * tab-width: 4;
+ * c-basic-offset: 4;
+ * c-file-style: k&r;
+ * indent-tabs-mode: nil;
+ * End:
+ */

@@ -206,3 +206,12 @@ Java_com_freiheit_gnupg_GnuPGKey_gpgmeHasSecretKey(JNIEnv* env, jobject self,
 /*   (*env)->SetObjectField(env, self, fpr_fld, fpr_jstr); */
 
 /* } */
+
+/*
+ * Local Variables:
+ * tab-width: 4;
+ * c-basic-offset: 4;
+ * c-file-style: k&r;
+ * indent-tabs-mode: nil;
+ * End:
+ */

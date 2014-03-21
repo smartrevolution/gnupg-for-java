@@ -191,3 +191,5 @@ public class GnuPGSignature extends GnuPGPeer {
     private native long gpgmeGetNextSignature(long l);
 
 }
+
+/* Local Variables: tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil; End: */

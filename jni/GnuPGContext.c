@@ -829,3 +829,12 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDelete(JNIEnv* env,
         return;
     }
 }
+
+/*
+ * Local Variables:
+ * tab-width: 4;
+ * c-basic-offset: 4;
+ * c-file-style: k&r;
+ * indent-tabs-mode: nil;
+ * End:
+ */
