@@ -14,7 +14,7 @@
 JNIEXPORT jsize JNICALL
 Java_com_freiheit_gnupg_GnuPGData_gpgmeSize(JNIEnv* env, jobject self, jlong data)
 {
-    return (jsize) (DATA(data))->data.mem.size;
+    return (jsize)(DATA(data))->data.mem.size;
 }
 
 JNIEXPORT jlong JNICALL
@@ -40,7 +40,7 @@ Java_com_freiheit_gnupg_GnuPGData_gpgmeDataNewFromMem(JNIEnv* env,
         return LNG(NULL);
     }
 
-    (*env)->ReleaseByteArrayElements(env, plain, plain_ptr, 0); //RELMEM(0)
+    (*env)->ReleaseByteArrayElements(env, plain, plain_ptr, 0);  //RELMEM(0)
     jlong result = LNG(data);
     return result;
 }
@@ -108,7 +108,7 @@ Java_com_freiheit_gnupg_GnuPGData_gpgmeDataWrite(JNIEnv* env, jobject self,
 
     jbyteArray jbuf;
 
-    err = (gpgme_data_seek ( DATA(data), (off_t)0, SEEK_SET ) < 0);
+    err = (gpgme_data_seek(DATA(data), (off_t)0, SEEK_SET) < 0);
     if (UTILS_onErrorThrowException(env, err)) {
         fprintf(stderr, "error throw exception! abort.\n");
         return;
@@ -166,7 +166,7 @@ Java_com_freiheit_gnupg_GnuPGData_gpgmeDataRead(JNIEnv* env, jobject self,
     jbyteArray jbuf = (*env)->NewByteArray(env, BUFSIZE);   //GETMEM(0)
     jlong nread;
 
-    err = (gpgme_data_seek (DATA(data), (off_t)0, SEEK_SET) < 0);
+    err = (gpgme_data_seek(DATA(data), (off_t)0, SEEK_SET) < 0);
     if (UTILS_onErrorThrowException(env, err)) {
         return;
     }

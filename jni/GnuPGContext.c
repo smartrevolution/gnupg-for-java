@@ -89,7 +89,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpEncrypt(JNIEnv* env,
         return;
     }
 
-    err = gpgme_data_rewind(DATA(cipher));  //TODO: Use seek instead of rewind
+    err = gpgme_data_rewind(DATA(cipher));   //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {
         return;
     }
@@ -120,7 +120,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDecrypt(JNIEnv* env,
 {
     gpgme_error_t err;
 
-    err = gpgme_data_rewind(DATA(cipher));  //TODO: Use seek instead of rewind
+    err = gpgme_data_rewind(DATA(cipher));   //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {
         return;
     }
@@ -242,7 +242,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpEncryptSign(JNIEnv* env,
         return;
     }
 
-    err = gpgme_data_rewind(DATA(cipher));  //TODO: Use seek instead of rewind
+    err = gpgme_data_rewind(DATA(cipher));   //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {
         return;
     }
@@ -272,7 +272,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDecryptVerify(JNIEnv* env,
 {
     gpgme_error_t err;
 
-    err = gpgme_data_rewind(DATA(cipher));  //TODO: Use seek instead of rewind
+    err = gpgme_data_rewind(DATA(cipher));   //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {
         return;
     }
@@ -382,7 +382,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
     //copy string object from java to native string
     const jsize query_len = (*env)->GetStringLength(env, query);
     const jbyte* query_str = (jbyte*)(*env)->GetStringUTFChars(env, query,
-                                                               NULL);
+                             NULL);
     //get the right constructor to invoke for every key in result set
     jclass keyClass;
     keyClass = (*env)->FindClass(env, "com/freiheit/gnupg/GnuPGKey");
@@ -397,8 +397,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
     }
 
     gpgme_error_t err = gpgme_op_keylist_start(CONTEXT(context),
-                                 query_len > 0 ? (const char*)query_str : NULL,
-                                 secret_only);
+                        query_len > 0 ? (const char*)query_str : NULL, secret_only);
     if (UTILS_onErrorThrowException(env, err)) {
         (*env)->ReleaseStringUTFChars(env, query, (const char*)query_str);
         return NULL;
@@ -408,14 +407,14 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
     jlong num_keys_found = 0;
     struct _keyInList {
         gpgme_key_t key;
-        struct _keyInList *next;
+        struct _keyInList* next;
     };
-    typedef struct _keyInList *keyInList;
+    typedef struct _keyInList* keyInList;
     keyInList current, next, head = NULL;
     while (!err) {
         err = gpgme_op_keylist_next(CONTEXT(context), &key);
         if ((gpg_err_code(err) != GPG_ERR_EOF)
-            && UTILS_onErrorThrowException(env, err)) {
+                && UTILS_onErrorThrowException(env, err)) {
             return NULL;
         } else if (err) {
             break; // we have nothing, quit before setting the list
@@ -429,11 +428,11 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
     current = head;
     jobject keyObj = NULL;
     jobjectArray result = (*env)->NewObjectArray(env,
-                                                 num_keys_found,
-                                                 keyClass,
-                                                 NULL);
+                          num_keys_found,
+                          keyClass,
+                          NULL);
     int i;
-    for(i = 0; i < num_keys_found; i++) {
+    for (i = 0; i < num_keys_found; i++) {
         key = current->key;
         keyObj = (*env)->NewObject(env, keyClass, cid, LNG(key));
         (*env)->SetObjectArrayElement(env, result, i, keyObj);
@@ -623,7 +622,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpImport(JNIEnv* env,
     gpgme_error_t err;
     gpgme_import_result_t result;
 
-    err = gpgme_data_rewind(DATA(keydata)); //TODO: Use seek instead of rewind
+    err = gpgme_data_rewind(DATA(keydata));   //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {
         return;
     }
@@ -702,7 +701,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpGenKey(JNIEnv* env,
     char* p;
     gpgme_error_t err;
 
-    p = (char*) (*env)->GetStringUTFChars(env, params, NULL);
+    p = (char*)(*env)->GetStringUTFChars(env, params, NULL);
 
     fprintf(stderr, "genKey: \"%s\"\n", p);
 
@@ -732,7 +731,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpExport(JNIEnv* env,
     gpgme_error_t err;
 
 
-    p = (char*) (*env)->GetStringUTFChars(env, pattern, NULL);
+    p = (char*)(*env)->GetStringUTFChars(env, pattern, NULL);
     err = gpgme_op_export(ctx, p, 0, data);
     if (UTILS_onErrorThrowException(env, err)) {
         return;
@@ -755,8 +754,8 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeCtxSetEngineInfo(JNIEnv* env,
     char* home_dir;
     gpgme_error_t err;
 
-    file_name = (char*) (*env)->GetStringUTFChars(env, fileName, NULL);
-    home_dir = (char*) (*env)->GetStringUTFChars(env, homeDir, NULL);
+    file_name = (char*)(*env)->GetStringUTFChars(env, fileName, NULL);
+    home_dir = (char*)(*env)->GetStringUTFChars(env, homeDir, NULL);
 
 
     /*fprintf(stderr, "set engine info: proto: %d, fileName: %s, homeDir: %s\n", proto, file_name, home_dir);*/

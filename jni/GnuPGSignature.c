@@ -9,21 +9,21 @@ JNIEXPORT jboolean JNICALL
 Java_com_freiheit_gnupg_GnuPGSignature_gpgmeGetRevoked(JNIEnv* env,
         jobject self, jlong sig)
 {
-    return (jboolean) (KEYSIG(sig))->revoked;
+    return (jboolean)(KEYSIG(sig))->revoked;
 }
 
 JNIEXPORT jboolean JNICALL
 Java_com_freiheit_gnupg_GnuPGSignature_gpgmeGetExpired(JNIEnv* env,
         jobject self, jlong sig)
 {
-    return (jboolean) (KEYSIG(sig))->expired;
+    return (jboolean)(KEYSIG(sig))->expired;
 }
 
 JNIEXPORT jboolean JNICALL
 Java_com_freiheit_gnupg_GnuPGSignature_gpgmeGetInvalid(JNIEnv* env,
         jobject self, jlong sig)
 {
-    return (jboolean) (KEYSIG(sig))->invalid;
+    return (jboolean)(KEYSIG(sig))->invalid;
 }
 
 JNIEXPORT jboolean JNICALL
@@ -31,7 +31,7 @@ Java_com_freiheit_gnupg_GnuPGSignature_gpgmeGetExportable(JNIEnv* env,
         jobject self,
         jlong sig)
 {
-    return (jboolean) (KEYSIG(sig))->exportable;
+    return (jboolean)(KEYSIG(sig))->exportable;
 }
 
 JNIEXPORT jstring JNICALL

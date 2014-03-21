@@ -35,12 +35,12 @@ int UTILS_copyRecipientsFromJvm(JNIEnv* env, jlongArray recipients, gpgme_key_t 
 // don't use this directly, it is wrapped by the PTR() macro
 inline static void* _ptrFromJLong(jlong l)
 {
-    return (void*) (unsigned long) l;
+    return (void*)(unsigned long) l;
 }
 
 // don't use this directly, it is wrapped by the PTR() macro
 inline static jlong _jlongFromPtr(void* p)
 {
-    return (jlong) (unsigned long) p;
+    return (jlong)(unsigned long) p;
 }
 #endif
