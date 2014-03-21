@@ -13,6 +13,6 @@ else
     ASTYLE_ARGS="--style=kr --indent=spaces=4 --convert-tabs --pad-oper  --pad-header --align-pointer=type --align-reference=type"
 fi
 
-$ASTYLE $ASTYLE_ARGS jni/*.h
-$ASTYLE $ASTYLE_ARGS jni/*.c
+$ASTYLE $ASTYLE_ARGS *.h
+$ASTYLE $ASTYLE_ARGS *.c
 
