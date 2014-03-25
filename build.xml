@@ -61,6 +61,7 @@
 
     <target name="generate-jni-headers" depends="compile-java" description="Use this, if you want to generate headers without resolving dependencies automatically">
         <exec executable="make" dir="jni" failonerror="true">
+            <arg value="BUILD_DIR=${build.dir}"/>
             <arg value="CLASSES_DIR=${classes.dir}"/>
             <arg value="headers"/>
         </exec>

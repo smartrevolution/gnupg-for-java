@@ -10,6 +10,12 @@ ALL_CFLAGS := -Werror -Wall -Wno-deprecated-declarations -fPIC
 ALL_CPPFLAGS = -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -DLARGEFILE_SOURCE=1 \
 	-I"$(JAVA_HOME)/include"
 
+
+# these are provided by ant
+ifeq (,$(BUILD_DIR))
+$(error Run the native builds using ant, i.e. `ant gen-jni-library`)
+endif
+
 UNAME := $(shell uname -s)
 ifeq (MINGW,$(findstring MINGW,$(UNAME)))
   CC := mingw32-gcc
