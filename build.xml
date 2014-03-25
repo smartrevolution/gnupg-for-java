@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="gnupg-for-java" default="full-jar" basedir=".">
+<project name="gnupg-for-java" default="release" basedir=".">
     <property file="build.properties"/>
 
     <target name="prepare" description="Create the necessary directories and files for the build">
@@ -19,7 +19,7 @@
       </javac>
     </target>
 
-    <target name="test" depends="gen-jni-headers, full-jar" description="Test the library functions...">
+    <target name="test" depends="gen-jni-headers, release" description="Test the library functions...">
      	<property name="TestEnv" value="textui"/>
      	<!-- 	"textui" for text-environment
      			"swingui" for swing-environment
@@ -39,7 +39,7 @@
         </java>
     </target>
 
-    <target name="full-jar" depends="gen-jni-library" description="Use this is you want to rebuild everything">
+    <target name="release" depends="gen-jni-library" description="Use this is you want to rebuild everything">
         <antcall target="jar"/>
     </target>
 

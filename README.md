@@ -47,7 +47,7 @@ it from Homebrew, MacPorts, or Fink.  Or you can install
 
 To build the gnupg-for-java.jar in build/jar/, run this:
 
-    ant clean jar
+    ant clean release
 
 If you want the optional javadoc in build/docs/, run:
 

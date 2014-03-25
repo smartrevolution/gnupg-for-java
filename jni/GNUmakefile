@@ -1,8 +1,8 @@
 
-JNISRC := GnuPGContext.c GnuPGData.c GnuPGGenkeyResult.c GnuPGKey.c GnuPGSignature.c
-JNI_CLASSES := $(patsubst %.c, com.freiheit.gnupg.%, $(JNISRC))
-JNI_HEADERS := $(patsubst %.c, com_freiheit_gnupg_%.h, $(JNISRC))
-SOURCES := $(JNISRC) gpgmeutils.c
+JNI_SOURCES := GnuPGContext.c GnuPGData.c GnuPGGenkeyResult.c GnuPGKey.c GnuPGSignature.c
+JNI_CLASSES := $(patsubst %.c, com.freiheit.gnupg.%, $(JNI_SOURCES))
+JNI_HEADERS := $(patsubst %.c, com_freiheit_gnupg_%.h, $(JNI_SOURCES))
+SOURCES := $(JNI_SOURCES) gpgmeutils.c
 OBJECTS := $(SOURCES:.c=.o)
 
 JAVA_BUILD := ../build/classes
@@ -80,7 +80,7 @@ clean:
 
 test:
 	echo "JAVA_HOME: --$(JAVA_HOME)--"
-	echo "JNISRC: $(JNISRC)"
+	echo "JNI_SOURCES: $(JNI_SOURCES)"
 	echo "JNI_CLASSES: $(JNI_CLASSES)"
 	echo "JNI_HEADERS: $(JNI_HEADERS)"
 	echo "SOURCES: $(SOURCES)"
