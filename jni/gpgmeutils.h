@@ -2,7 +2,6 @@
 #define GPGME_JAVA_UTILS
 
 #include <jni.h>
-#include <gpg-error.h>
 #include <gpgme.h>
 
 jboolean UTILS_setStringMember(JNIEnv* env, jobject self, jclass selfclass,

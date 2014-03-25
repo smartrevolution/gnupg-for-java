@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 #include <locale.h>
-#include <gpg-error.h>
 #include <gpgme.h>
 
 #include "gpgmeutils.h"
