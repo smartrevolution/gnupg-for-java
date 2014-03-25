@@ -2,19 +2,23 @@
 <project name="gnupg-for-java" default="release" basedir=".">
     <property file="build.properties"/>
 
+    <property name="build.dir" location="build" />
+    <property name="classes.dir" location="${build.dir}/classes" />
+    <property name="docs.dir" location="${build.dir}/docs" />
+    <property name="jarfile" value="${build.dir}/${app.name}-${app.version}.jar"/>
+
     <target name="prepare" description="Create the necessary directories and files for the build">
-        <mkdir dir="build"/>
-        <mkdir dir="dist"/>
+        <mkdir dir="${build.dir}"/>
     </target>
 
     <target name="clean" depends="clean-native" description="Remove all generated dirs and files...">
-        <delete dir="build"/>
-        <delete dir="dist"/>
+        <delete file="${jarfile}"/>
+        <delete dir="${classes.dir}" includeEmptyDirs="true"/>
     </target>
 
     <target name="compile-java" depends="prepare" description="Compile the Java code for the GnuPG-Library">
-      <mkdir dir="build/classes"/>
-      <javac srcdir="src" destdir="build/classes" debug="on">
+      <mkdir dir="${classes.dir}"/>
+      <javac srcdir="src" destdir="${classes.dir}" debug="on">
         <src path="src"/>
       </javac>
     </target>
@@ -29,13 +33,11 @@
         <mkdir dir="/tmp/gnupg-for-java-tests"/>
     	<java classname="junit.${TestEnv}.TestRunner" fork ="yes">
             <classpath>
-               <pathelement location="build/jar/${app.name}-${app.version}.jar"/>
-               <pathelement location="lib/junit-3.8.1.jar"/>
+                <fileset dir="${build.dir}" includes="*.jar"/>
+                <fileset dir="${classes.dir}"/>
             </classpath>
-            <!--classpath refid="compile.classpath"/-->
+            <sysproperty key="java.library.path" value="${build.dir}"/>
             <arg value="com.freiheit.gnupg.tests.GnuPGTestSuite"/>
-            <sysproperty key="java.library.path"
-                         value="${basedir}/jni"/>
         </java>
     </target>
 
@@ -44,12 +46,12 @@
     </target>
 
     <target name="jar" depends="compile-java" description="Use this, if you only want to recompile changed java code">
-      <jar jarfile="build/jar/${app.name}-${app.version}.jar" basedir="build/classes" />
+      <jar jarfile="${jarfile}" basedir="${classes.dir}" />
     </target>
     
     <target name="clean-native" description="calls make clean in the c/ directory">
       <exec executable="make" dir="jni" failonerror="false">
-        <arg value="-e"/>
+        <arg value="BUILD_DIR=${build.dir}"/>
         <arg value="clean"/>
       </exec>
     </target>
@@ -59,8 +61,8 @@
 
     <target name="generate-jni-headers" depends="compile-java" description="Use this, if you want to generate headers without resolving dependencies automatically">
         <exec executable="make" dir="jni" failonerror="true">
+            <arg value="CLASSES_DIR=${classes.dir}"/>
             <arg value="headers"/>
-            <arg value="-e"/>
         </exec>
     </target>
 
@@ -70,8 +72,8 @@
 
     <target name="recompile-c-code" description="Use this, if you just want to compile without resolving dependencies automatically">
         <exec executable="make" dir="jni" failonerror="true">
+            <arg value="BUILD_DIR=${build.dir}"/>
             <arg value="lib"/>
-            <arg value="-e"/>
         </exec>
     </target>
 
@@ -80,20 +82,18 @@
     </target>
 
     <target name="javadoc" description="Create Javadoc-API documentation">
-        <mkdir  dir="build/docs/api"/>
-        <mkdir  dir="build/docs/images"/>
-        <copy todir="build/docs/images" file="etc/guardianproject-logo.png"/>
-        <copy todir="build/docs/images" file="etc/fdc.javadoc.png"/>
+        <mkdir  dir="${docs.dir}/images"/>
+        <copy todir="${docs.dir}/images" file="etc/guardianproject-logo.png"/>
+        <copy todir="${docs.dir}/images" file="etc/fdc.javadoc.png"/>
 
         <javadoc sourcepath="src"
-                    destdir="build/docs/${app.name}-${app.version}"
+                    destdir="${docs.dir}/${app.name}-${app.version}"
                 windowtitle="${app.name} (Version ${app.version})"
                    doctitle="${app.name} (Version ${app.version})"
                      bottom="&#169; ${app.year} ${app.vendor}"
                      header="freiheit.com technologies gmbh &amp; The Guardian Project"
                packagenames="com.freiheit.*"
                    overview="${etc}/overview.html">
-          <!--classpath refid="compile.classpath"/-->
             <!--
                 !!! relative path for headers does NOT work !!!
                 header="&lt;img src='../images/fdc.javadoc.png'&gt;"
@@ -104,7 +104,7 @@
     </target>
 
     <target name="zip_javadoc" depends="javadoc" description="Create a zip-file for API-Javadoc">
-        <zip zipfile="build/${app.name}-${app.version}-javadoc.zip" basedir="build/docs/${app.name}-${app.version}"/>
+        <zip zipfile="build/${app.name}-${app.version}-javadoc.zip" basedir="${docs.dir}/${app.name}-${app.version}"/>
     </target>
 
 </project>

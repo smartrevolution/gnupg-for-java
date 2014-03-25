@@ -5,8 +5,6 @@ JNI_HEADERS := $(patsubst %.c, com_freiheit_gnupg_%.h, $(JNI_SOURCES))
 SOURCES := $(JNI_SOURCES) gpgmeutils.c
 OBJECTS := $(SOURCES:.c=.o)
 
-JAVA_BUILD := ../build/classes
-
 DEBUG := -g
 ALL_CFLAGS := -Werror -Wall -Wno-deprecated-declarations -fPIC
 ALL_CPPFLAGS = -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -DLARGEFILE_SOURCE=1 \
@@ -20,7 +18,7 @@ ifeq (MINGW,$(findstring MINGW,$(UNAME)))
   ALL_LDFLAGS :=  -s -shared -Wl,--enable-auto-import
   ALL_LIBS := -L"$(PROGRAMFILES)/GNU/GnuPG" -lgpgme-11
   JAVA_HOME := $(PROGRAMFILES)/Java/jdk1.7.0_51
-  GNUPG_LIB := ../lib/gnupg-for-java.dll
+  GNUPG_LIB := $(BUILD_DIR)/gnupg-for-java.dll
 else
   ifeq ($(UNAME),Darwin)
     CC := gcc
@@ -29,14 +27,14 @@ else
     ALL_LIBS := -L/usr/local/MacGPG2/lib -framework MacGPGME
     JAVA_HOME := $(shell /usr/libexec/java_home \
 	|| echo /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home)
-    GNUPG_LIB := ../lib/libgnupg-for-java.dylib
+    GNUPG_LIB := $(BUILD_DIR)/libgnupg-for-java.dylib
   else
     CC := gcc
     ALL_CFLAGS +=  $(shell gpgme-config --cflags)
     ALL_CPPFLAGS += -I"$(JAVA_HOME)/include/linux"
     ALL_LDFLAGS := -shared
     ALL_LIBS := $(shell gpgme-config --thread=pthread --libs)
-    GNUPG_LIB := ../lib/libgnupg-for-java.so
+    GNUPG_LIB := $(BUILD_DIR)/libgnupg-for-java.so
     # to override this JAVA_HOME, use the `-e' flag to make, or call it like:
     #   make JAVA_HOME=/opt/java
     JAVA_HOME := $(shell readlink -f /usr/bin/javac | sed "s:/bin/javac::")
@@ -68,10 +66,10 @@ lib: $(GNUPG_LIB)
 headers: $(JNI_HEADERS)
 
 $(JNI_HEADERS):
-	$(JAVAH) -classpath $(JAVA_BUILD) -jni $(JNI_CLASSES)
+	$(JAVAH) -classpath $(CLASSES_DIR) -jni $(JNI_CLASSES)
 
 mids:
-	$(JAVAP) -classpath $(JAVA_BUILD) -s -p $(JNI_CLASSES)
+	$(JAVAP) -classpath $(CLASSES_DIR) -s -p $(JNI_CLASSES)
 
 clean:
 	rm -f $(OBJECTS) *~

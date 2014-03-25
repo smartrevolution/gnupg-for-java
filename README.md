@@ -23,6 +23,10 @@ instead of loading a .so lib.
 
 ## Setup for Building
 
+You will need a JUnit jar to run the tests.  If your system does not provide
+one already, you can download the jar and put it into the build/ directory of
+this project.
+
 ### Debian/Ubuntu/Mint/etc
 
     sudo apt-get install default-jdk make ant build-essential \
@@ -45,9 +49,14 @@ it from Homebrew, MacPorts, or Fink.  Or you can install
 
 ## Building
 
-To build the gnupg-for-java.jar in build/jar/, run this:
+To build the `gnupg-for-java.jar` and `libgnupg-for-java.so` in build/, run
+this:
 
     ant clean release
+
+You can run the test suite using `ant` also:
+
+    ant test
 
 If you want the optional javadoc in build/docs/, run:
 
