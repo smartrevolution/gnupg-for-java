@@ -21,6 +21,28 @@ the jar and extend the loading mechanism to load a DLL on a Windows platform
 instead of loading a .so lib.
 
 
+## Setup for Building
+
+### Debian/Ubuntu/Mint/etc
+
+    sudo apt-get install default-jdk make ant build-essential \
+        libgpgme11-dev libgpg-error-dev
+
+
+### Windows
+
+* Install MinGW (for 32-bit): http://mingw.org/
+* Install Gpg4win: http://gpg4win.org/download.html
+** Signing Key Fingerprint: `61AC 3F5E E4BE 593C 13D6  8B1E 7CBD 620B EC70 B1B8`
+
+
+### Mac OS X
+
+You need to install GnuPG2 from one of a couple sources.  You can get
+it from Homebrew, MacPorts, or Fink.  Or you can install
+"GPGTools":https://gpgtools.org and then build gpgme from source.
+
+
 ## Building
 
 To build the gnupg-for-java.jar in build/jar/, run this:
