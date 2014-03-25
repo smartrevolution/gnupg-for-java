@@ -9,6 +9,7 @@
 #include <gpgme.h>
 
 #include "gpgmeutils.h"
+#include "com_freiheit_gnupg_GnuPGContext.h"
 
 JavaVM* _jvm;
 
@@ -656,36 +657,36 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpImport(JNIEnv* env,
     //check_result (result, "ADAB7FCC1F4DE2616ECFA402AF82244F9CD9FD55", 0);
 }
 
-JNIEXPORT jlong JNICALL
+JNIEXPORT jboolean JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeGetArmor(JNIEnv* env,
         jobject self,
         jlong context)
 {
-    return (jlong) gpgme_get_armor(CONTEXT(context));
+    return (jboolean) gpgme_get_armor(CONTEXT(context));
 }
 
 JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeSetArmor(JNIEnv* env,
         jobject self,
         jlong context,
-        jlong armor_state)
+        jboolean armor_state)
 {
     gpgme_set_armor(CONTEXT(context), (int) armor_state);
 }
 
-JNIEXPORT jlong JNICALL
+JNIEXPORT jboolean JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeGetTextmode(JNIEnv* env,
         jobject self,
         jlong context)
 {
-    return (jlong) gpgme_get_textmode(CONTEXT(context));
+    return (jboolean) gpgme_get_textmode(CONTEXT(context));
 }
 
 JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeSetTextmode(JNIEnv* env,
         jobject self,
         jlong context,
-        jlong mode)
+        jboolean mode)
 {
     gpgme_set_textmode(CONTEXT(context), (int) mode);
 }

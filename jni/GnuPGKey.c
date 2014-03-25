@@ -1,9 +1,9 @@
 #include <jni.h>
 #include <stdio.h>
+#include <gpgme.h>
 
 #include "gpgmeutils.h"
-
-#include <gpgme.h>
+#include "com_freiheit_gnupg_GnuPGKey.h"
 
 
 JNIEXPORT jlong JNICALL

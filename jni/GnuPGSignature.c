@@ -1,9 +1,10 @@
 #include <jni.h>
 #include <stdio.h>
+#include <gpgme.h>
 
 #include "gpgmeutils.h"
+#include "com_freiheit_gnupg_GnuPGSignature.h"
 
-#include <gpgme.h>
 
 JNIEXPORT jboolean JNICALL
 Java_com_freiheit_gnupg_GnuPGSignature_gpgmeGetRevoked(JNIEnv* env,

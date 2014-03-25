@@ -1,10 +1,10 @@
 #include <jni.h>
 #include <stdio.h>
-
+#include <gpgme.h>
 
 #include "gpgmeutils.h"
+#include "com_freiheit_gnupg_GnuPGData.h"
 
-#include <gpgme.h>
 // TODO, this is a private header, figure out public techniques...
 #include "data.h"
 

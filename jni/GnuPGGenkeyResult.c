@@ -1,9 +1,10 @@
 #include <jni.h>
 #include <stdio.h>
+#include <gpgme.h>
 
 #include "gpgmeutils.h"
+#include "com_freiheit_gnupg_GnuPGGenkeyResult.h"
 
-#include <gpgme.h>
 
 JNIEXPORT jstring JNICALL
 Java_com_freiheit_gnupg_GnuPGGenkeyResult_gpgmeGetFpr(JNIEnv* env,

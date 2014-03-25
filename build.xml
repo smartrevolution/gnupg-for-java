@@ -19,7 +19,7 @@
       </javac>
     </target>
 
-    <target name="test" depends="gen-jni-header, full-jar" description="Test the library functions...">
+    <target name="test" depends="gen-jni-headers, full-jar" description="Test the library functions...">
      	<property name="TestEnv" value="textui"/>
      	<!-- 	"textui" for text-environment
      			"swingui" for swing-environment
@@ -59,12 +59,12 @@
 
     <target name="generate-jni-headers" depends="compile-java" description="Use this, if you want to generate headers without resolving dependencies automatically">
         <exec executable="make" dir="jni" failonerror="true">
-            <arg value="header"/>
+            <arg value="headers"/>
             <arg value="-e"/>
         </exec>
     </target>
 
-    <target name="gen-jni-header" depends="compile-java" description="Generate the JNI C-Header Files from the Java-Classes">
+    <target name="gen-jni-headers" depends="compile-java" description="Generate the JNI C-Header Files from the Java-Classes">
         <antcall target="generate-jni-headers"/>
     </target>
 
@@ -75,7 +75,7 @@
         </exec>
     </target>
 
-    <target name="gen-jni-library" depends="gen-jni-header" description="Generate the Shared Library with the JNI-Binding Code">
+    <target name="gen-jni-library" depends="gen-jni-headers" description="Generate the Shared Library with the JNI-Binding Code">
         <antcall target="recompile-c-code"/>
     </target>
 

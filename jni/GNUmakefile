@@ -58,7 +58,7 @@ INSTALL := install -m 644
 $(GNUPG_LIB): $(OBJECTS)
 	$(CC) $(DEBUG) $(ALL_CFLAGS) $(ALL_LDFLAGS) $^ -o $@ $(ALL_LIBS)
 
-$(OBJECTS): $(SOURCES) gpgmeutils.h
+$(OBJECTS): $(JNI_HEADERS) $(SOURCES) gpgmeutils.h
 
 %.o: %.c
 	$(CC) $(DEBUG) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -c $<

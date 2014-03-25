@@ -53,10 +53,6 @@ If you want the optional javadoc in build/docs/, run:
 
     ant javadoc
 
-For the JNI headers, run:
-
-    make -C jni/ headers
-
 
 ## Hacking Notes
 
