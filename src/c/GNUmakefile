@@ -6,8 +6,9 @@ JAVA_HOME := /www/home/tcadm/local/jdk-amd64
 #JAVA_HOME := /usr/local/jdk1.4.2
 endif
 
+UNAME=`which uname`
 # set this from the command line to enforce a particular OS-bitness
-BITS := $(shell /bin/uname -m | grep ".*_[0-9]\+" | sed "s/.*_\([0-9]\+\)/\1/")
+BITS := $(shell $(UNAME) -m | grep ".*_[0-9]\+" | sed "s/.*_\([0-9]\+\)/\1/")
 
 JAVAGNUPG_LIB := libjavagnupg
 JNISRC := $(wildcard GnuPG*.c)
@@ -31,7 +32,15 @@ BITS := 32
 endif
 DEBUG := -g
 CFLAGS := $(MARCH) -Werror -Wall -Wno-deprecated-declarations -fPIC $(shell gpgme-config --cflags)
-CPPFLAGS := -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -DLARGEFILE_SOURCE=1 -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
+CPPFLAGS := -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -DLARGEFILE_SOURCE=1 -I$(JAVA_HOME)/include 
+
+ifeq ($(shell $(UNAME)), Linux)
+	CPPFLAGS := -I$(JAVA_HOME)/include/linux
+endif
+
+ifeq ($(shell $(UNAME)), Darwin)
+	CPPFLAGS := -I$(JAVA_HOME)/../Headers
+endif
 
 C_IMPL := ./src/c
 JAVA_BUILD := ../../build

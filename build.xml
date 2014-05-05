@@ -24,13 +24,11 @@
             </classpath>
         </javac>
     </target>
-
     <target name="test" depends="gen-jni-header, compile-tests, full-jar" description="Test the library functions...">
-     	<property name="TestEnv" value="textui"/>
+		<property name="TestEnv" value="textui"/>
      	<!-- 	"textui" for text-environment
      			"swingui" for swing-environment
      		 	"awtui" for awt-environment	-->
-
     	<java classname="junit.${TestEnv}.TestRunner" fork ="yes">
             <classpath>
                <pathelement location ="${basedir}/${dist}/${app.name}-${app.version}.jar"/>
