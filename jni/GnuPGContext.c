@@ -20,7 +20,7 @@ JNI_OnLoad(JavaVM* vm, void* reserved)
 
     // this is required to setup gpgme properly, otherwise it crashes
     // https://www.gnupg.org/documentation/manuals/gpgme/Multi-Threading.html
-    gpgme_check_version(NULL);
+    gpgme_check_version("1.5.0");
 
     // TODO set locale from the JavaVM's config
     setlocale(LC_ALL, "");
