@@ -58,6 +58,13 @@ Java_com_freiheit_gnupg_GnuPGKey_gpgmeGetKeyID(JNIEnv* env, jobject self,
     return str;
 }
 
+JNIEXPORT jlong JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeGetTimestamp(JNIEnv* env, jobject self,
+        jlong key)
+{
+    return (KEY(key))->subkeys->timestamp;
+}
+
 JNIEXPORT jstring JNICALL
 Java_com_freiheit_gnupg_GnuPGKey_gpgmeGetFingerprint(JNIEnv* env, jobject self,
         jlong key)

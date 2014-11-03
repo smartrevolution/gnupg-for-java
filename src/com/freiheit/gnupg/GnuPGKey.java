@@ -15,13 +15,14 @@
 package com.freiheit.gnupg;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * Represents a key. You can manage and find keys using GnuPGContext. You can
  * not instantiate a key by yourself. You always need a context.
- * 
+ *
  * @see com.freiheit.gnupg.GnuPGContext
  * @author Stefan Richter, stefan@freiheit.com
  */
@@ -38,7 +39,7 @@ public class GnuPGKey extends GnuPGPeer {
 
     /**
      * Fetch a public key by its 16 hex char fingerprint String
-     * 
+     *
      * @param context - the current GnuPGContext
      * @param fingerprint - the 16 hex char fingerprint String
      */
@@ -49,7 +50,7 @@ public class GnuPGKey extends GnuPGPeer {
 
     /**
      * Fetch a key by its 16 hex char fingerprint String
-     * 
+     *
      * @param context the current GnuPGContext
      * @param fingerprint the 16 hex char fingerprint String
      * @param secret_only whether to return only secret keys
@@ -78,6 +79,10 @@ public class GnuPGKey extends GnuPGPeer {
      */
     public String getKeyID() {
         return gpgmeGetKeyID(getInternalRepresentation());
+    }
+
+    public Date getTimestamp() {
+        return new Date(gpgmeGetTimestamp(getInternalRepresentation()) / 1000);
     }
 
     /**
@@ -156,7 +161,7 @@ public class GnuPGKey extends GnuPGPeer {
      * because there are to many people still using jdk-1.4.x without generics
      * support. This will be changed on increasing demand.
      * <p>
-     * 
+     *
      * @return Iterator of GnuPGSignature objects
      * @see com.freiheit.gnupg.GnuPGSignature
      */
@@ -185,7 +190,7 @@ public class GnuPGKey extends GnuPGPeer {
         StringBuffer buf = new StringBuffer();
 
         while (iter != null && iter.hasNext()) {
-            sig = (GnuPGSignature) iter.next();
+            sig = iter.next();
             buf.append("\t").append(sig).append("\n");
         }
 
@@ -212,7 +217,7 @@ public class GnuPGKey extends GnuPGPeer {
 
     /**
      * Return this key with all of its signatures.
-     * 
+     *
      * @return String multiline text with one key and 0..many signatures
      */
     public String toString() {
@@ -263,6 +268,8 @@ public class GnuPGKey extends GnuPGPeer {
     private native String gpgmeGetEmail(long keyptr);
 
     private native String gpgmeGetKeyID(long keyptr);
+
+    private native long gpgmeGetTimestamp(long keyptr);
 
     private native String gpgmeGetFingerprint(long keyptr);
 
