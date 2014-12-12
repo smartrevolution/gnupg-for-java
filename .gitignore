@@ -8,3 +8,4 @@ jni/TAGS
 # generated JNI headers
 jni/com_freiheit_gnupg_GnuPG*.h
 lib/libgnupg-for-java.so
+target/
