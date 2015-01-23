@@ -637,16 +637,10 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpImport(JNIEnv* env,
             return;
     } else if (result->imported != 1 || result->not_imported != 0) {
         if (result->imports == NULL) {
-            fprintf(stderr,
-                    "result->imports == NULL, result->imported = %d, result->not_imported = %d\n",
-                    result->imported, result->not_imported);
             if (UTILS_onErrorThrowException(env, GPG_ERR_UNUSABLE_PUBKEY)) {
                 return;
             }
         } else {
-            fprintf(stderr,
-                    "result->imports != NULL, result->imported = %d, result->not_imported = %d\n",
-                    result->imported, result->not_imported);
             if (UTILS_onErrorThrowException(env, result->imports->result)) {
                 return;
             }
